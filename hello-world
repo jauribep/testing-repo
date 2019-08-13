@@ -1,0 +1,8 @@
+#!/bin/bash
+
+FILES=/home/jhon/Documents/*
+
+for file in $FILES
+do
+    echo $(basename $file)
+done
