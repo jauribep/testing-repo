@@ -1,0 +1,10 @@
+/home/dealii/git/testing-repo/dealii_examples/step-1/CMakeFiles/edit_cache.dir
+/home/dealii/git/testing-repo/dealii_examples/step-1/CMakeFiles/rebuild_cache.dir
+/home/dealii/git/testing-repo/dealii_examples/step-1/CMakeFiles/info.dir
+/home/dealii/git/testing-repo/dealii_examples/step-1/CMakeFiles/strip_comments.dir
+/home/dealii/git/testing-repo/dealii_examples/step-1/CMakeFiles/distclean.dir
+/home/dealii/git/testing-repo/dealii_examples/step-1/CMakeFiles/runclean.dir
+/home/dealii/git/testing-repo/dealii_examples/step-1/CMakeFiles/step-1.dir
+/home/dealii/git/testing-repo/dealii_examples/step-1/CMakeFiles/release.dir
+/home/dealii/git/testing-repo/dealii_examples/step-1/CMakeFiles/run.dir
+/home/dealii/git/testing-repo/dealii_examples/step-1/CMakeFiles/debug.dir
