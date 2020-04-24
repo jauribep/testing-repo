@@ -71,7 +71,7 @@ void second_grid()
   //       }
   //
   //     triangulation.execute_coarsening_and_refinement();
-    }
+  //  }
 
 
   std::ofstream out("grid-2.eps");
