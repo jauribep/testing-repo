@@ -74,7 +74,8 @@ void second_grid()
         {
           if (cell->center()[1] > 0)
           {
-            cell->set_refine_flag ()
+            cell->set_refine_flag ();
+            break;
           }
         }
 
