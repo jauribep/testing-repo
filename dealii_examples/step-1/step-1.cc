@@ -73,7 +73,9 @@ void second_grid()
         for (auto &cell: triangulation.active_cell_iterators())
         {
           if (cell->center()[1] > 0)
+          {
             cell->set_refine_flag ()
+          }
         }
 
       triangulation.execute_coarsening_and_refinement();
