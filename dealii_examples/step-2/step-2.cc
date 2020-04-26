@@ -67,7 +67,7 @@ void make_grid(Triangulation<2> &triangulation)
 
 void distribute_dofs(DoFHandler<2> &dof_handler)
 {
-  const FE_Q<2> finite_element(1);
+  const FE_Q<2> finite_element(3);
   dof_handler.distribute_dofs(finite_element);
 
   DynamicSparsityPattern dynamic_sparsity_pattern(dof_handler.n_dofs(),
