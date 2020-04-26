@@ -79,7 +79,7 @@ void distribute_dofs(DoFHandler<2> &dof_handler)
   sparsity_pattern.copy_from(dynamic_sparsity_pattern);
 
   std::ofstream out("sparsity_pattern1.svg");
-  sparsity_pattern.print_svg(out);
+  sparsity_pattern.print_gnuplot(out);
 }
 
 
@@ -96,7 +96,7 @@ void renumber_dofs(DoFHandler<2> &dof_handler)
   sparsity_pattern.copy_from(dynamic_sparsity_pattern);
 
   std::ofstream out("sparsity_pattern2.svg");
-  sparsity_pattern.print_svg(out);
+  sparsity_pattern.print_gnuplot(out);
 }
 
 
