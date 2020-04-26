@@ -67,7 +67,7 @@ void make_grid(Triangulation<2> &triangulation)
 
 void distribute_dofs(DoFHandler<2> &dof_handler)
 {
-  const FE_Q<2> finite_element(3);
+  const FE_Q<2> finite_element(5);
   dof_handler.distribute_dofs(finite_element);
 
   DynamicSparsityPattern dynamic_sparsity_pattern(dof_handler.n_dofs(),
@@ -78,8 +78,8 @@ void distribute_dofs(DoFHandler<2> &dof_handler)
   SparsityPattern sparsity_pattern;
   sparsity_pattern.copy_from(dynamic_sparsity_pattern);
 
-  std::ofstream out("sparsity_pattern1.plt");
-  sparsity_pattern.print_gnuplot(out);
+  std::ofstream out("sparsity_pattern1_2.svg");
+  sparsity_pattern.print_svg(out);
 }
 
 
@@ -95,8 +95,8 @@ void renumber_dofs(DoFHandler<2> &dof_handler)
   SparsityPattern sparsity_pattern;
   sparsity_pattern.copy_from(dynamic_sparsity_pattern);
 
-  std::ofstream out("sparsity_pattern2.plt");
-  sparsity_pattern.print_gnuplot(out);
+  std::ofstream out("sparsity_pattern2_2.svg");
+  sparsity_pattern.print_svg(out);
 }
 
 
