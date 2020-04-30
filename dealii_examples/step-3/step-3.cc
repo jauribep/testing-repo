@@ -95,6 +95,11 @@ void Step3::make_grid()
 
   std::cout << "Number of active cells: " << triangulation.n_active_cells()
             << std::endl;
+
+  std::ofstream out("grid-1.eps");
+  GridOut       grid_out;
+  grid_out.write_eps(triangulation, out);
+  std::cout << "Grid written to grid-1.eps" << std::endl;
 }
 
 
@@ -206,10 +211,10 @@ void Step3::output_results() const
 void Step3::run()
 {
   make_grid();
-  setup_system();
-  assemble_system();
-  solve();
-  output_results();
+  // setup_system();
+  // assemble_system();
+  // solve();
+  // output_results();
 }
 
 
