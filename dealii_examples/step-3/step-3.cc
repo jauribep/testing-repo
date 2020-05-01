@@ -94,8 +94,7 @@ void Step3::make_grid()
   // GridGenerator::hyper_cube(triangulation, -1, 1);
   // triangulation.refine_global(5);
 
-  GridGenerator::channel_with_cylinder
-  ( triangulation,
+  GridGenerator::channel_with_cylinder(triangulation,
     const double shell_region_width = 0.03,
     const unsigned int n_shells = 2,
     const double skewness = 2.0,
