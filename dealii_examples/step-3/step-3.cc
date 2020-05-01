@@ -101,6 +101,7 @@ void Step3::make_grid()
 
   GridGenerator::channel_with_cylinder(triangulation,
     shell_region_width, n_shells, skewness, colorize);
+    triangulation.refine_global(2);
 
   std::cout << "Number of active cells: " << triangulation.n_active_cells()
             << std::endl;
