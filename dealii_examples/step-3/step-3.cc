@@ -94,11 +94,13 @@ void Step3::make_grid()
   // GridGenerator::hyper_cube(triangulation, -1, 1);
   // triangulation.refine_global(5);
 
+  const double shell_region_width = 0.03;
+  const unsigned int n_shells = 2;
+  const double skewness = 2.0;
+  const bool colorize = false;
+
   GridGenerator::channel_with_cylinder(triangulation,
-    const double shell_region_width = 0.03,
-    const unsigned int n_shells = 2,
-    const double skewness = 2.0,
-    const bool colorize = false);
+    shell_region_width, n_shells, skewness, colorize);
 
   std::cout << "Number of active cells: " << triangulation.n_active_cells()
             << std::endl;
