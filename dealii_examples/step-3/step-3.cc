@@ -171,8 +171,8 @@ void Step3::make_grid()
   const double inner_radius = 0.05 + shell_region_width;
   const double outer_radius = 0.41 / 4.0;
   GridGenerator::hyper_cube_with_cylindrical_hole(cylinder_tria,
-                                                  0.05 + shell_region_width,
-                                                  0.41 / 4.0);
+                                                  inner_radius,
+                                                  outer_radius);
 
 
 
