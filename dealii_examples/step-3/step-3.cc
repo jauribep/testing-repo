@@ -163,16 +163,27 @@ void Step3::make_grid()
   GridGenerator::create_triangulation_with_removed_cells(
     bulk_tria, cells_to_remove, tria_without_cylinder);
 
+  // set up the cylinder triangulation. Note that this function sets the
+  // manifold ids of the interior boundary cells to 0
+  // (polar_manifold_id).
+  Triangulation<2> cylinder_tria;
+  const double shell_region_width = 0.03
+  const double inner_radius = 0.05 + shell_region_width
+  const double outer_radius = 0.41 / 4.0
+  GridGenerator::hyper_cube_with_cylindrical_hole(cylinder_tria,
+                                                  0.05 + shell_region_width,
+                                                  0.41 / 4.0);
 
 
 
-  std::cout << "Number of active cells: " << tria_without_cylinder.n_active_cells()
+
+  std::cout << "Number of active cells: " << cylinder_tria.n_active_cells()
             << std::endl;
 
-  std::ofstream out("tria_without_cylinder.eps");
+  std::ofstream out("cylinder_tria.eps");
   GridOut       grid_out;
-  grid_out.write_eps(tria_without_cylinder, out);
-  std::cout << "Grid written to tria_without_cylinder.eps" << std::endl;
+  grid_out.write_eps(cylinder_tria, out);
+  std::cout << "Grid written to cylinder_tria.eps" << std::endl;
 
 }
 
