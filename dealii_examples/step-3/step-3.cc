@@ -91,25 +91,61 @@ Step3::Step3()
 
 void Step3::make_grid()
 {
+  //Maya original
   // GridGenerator::hyper_cube(triangulation, -1, 1);
   // triangulation.refine_global(5);
 
-  const double shell_region_width = 0.03;
-  const unsigned int n_shells = 2;
-  const double skewness = 2.0;
-  const bool colorize = false;
+  //Maya channel_with_cylinder
+  // const double shell_region_width = 0.03;
+  // const unsigned int n_shells = 2;
+  // const double skewness = 2.0;
+  // const bool colorize = false;
+  //
+  // GridGenerator::channel_with_cylinder(triangulation,
+  //   shell_region_width, n_shells, skewness, colorize);
+  //   triangulation.refine_global(2);
 
-  GridGenerator::channel_with_cylinder(triangulation,
-    shell_region_width, n_shells, skewness, colorize);
-    triangulation.refine_global(2);
+  //Maya personalizada
 
-  std::cout << "Number of active cells: " << triangulation.n_active_cells()
+  // We begin by setting up a grid that is 4 by 22 cells. While not
+  // squares, these have pretty good aspect ratios.
+  Triangulation<2> bulk_tria;
+  GridGenerator::subdivided_hyper_rectangle(bulk_tria,
+                                            {22u, 4u},
+                                            Point<2>(0.0, 0.0),
+                                            Point<2>(2.2, 0.41));
+  // bulk_tria now looks like this:
+  //
+  //   +--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+
+  //   |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+  //   +--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+
+  //   |  |XX|XX|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+  //   +--+--O--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+
+  //   |  |XX|XX|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+  //   +--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+
+  //   |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+  //   +--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+
+  //
+  // Note that these cells are not quite squares: they are all 0.1 by
+  // 0.1025.
+  //
+  // The next step is to remove the cells marked with XXs: we will place
+  // the grid around the cylinder there later. The next loop does two
+  // things:
+  // 1. Determines which cells need to be removed from the Triangulation
+  //    (i.e., find the cells marked with XX in the picture).
+  // 2. Finds the location of the vertex marked with 'O' and uses that to
+  //    calculate the shift vector for aligning cylinder_tria with
+  //    tria_without_cylinder.
+
+  std::cout << "Number of active cells: " << bulk_tria.n_active_cells()
             << std::endl;
 
-  std::ofstream out("grid-1.eps");
+  std::ofstream out("bulk_tria.eps");
   GridOut       grid_out;
-  grid_out.write_eps(triangulation, out);
+  grid_out.write_eps(bulk_tria, out);
   std::cout << "Grid written to grid-1.eps" << std::endl;
+
 }
 
 
