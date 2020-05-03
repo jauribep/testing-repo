@@ -137,14 +137,42 @@ void Step3::make_grid()
   // 2. Finds the location of the vertex marked with 'O' and uses that to
   //    calculate the shift vector for aligning cylinder_tria with
   //    tria_without_cylinder.
+  std::set<Triangulation<2>::active_cell_iterator> cells_to_remove;
+  Tensor<1, 2> cylinder_triangulation_offset;
+  for (const auto &cell : bulk_tria.active_cell_iterators())
+    {
+      if ((cell->center() - Point<2>(0.2, 0.2)).norm() < 0.15)
+        cells_to_remove.insert(cell);
 
-  std::cout << "Number of active cells: " << bulk_tria.n_active_cells()
+      if (cylinder_triangulation_offset == Tensor<1, 2>())
+        {
+          for (unsigned int vertex_n = 0;
+               vertex_n < GeometryInfo<2>::vertices_per_cell;
+               ++vertex_n)
+            if (cell->vertex(vertex_n) == Point<2>())
+              {
+                // cylinder_tria is centered at zero, so we need to
+                // shift it up and to the right by two cells:
+                cylinder_triangulation_offset =
+                  2.0 * (cell->vertex(3) - Point<2>());
+                break;
+              }
+        }
+    }
+  Triangulation<2> tria_without_cylinder;
+  GridGenerator::create_triangulation_with_removed_cells(
+    bulk_tria, cells_to_remove, tria_without_cylinder);
+
+
+
+
+  std::cout << "Number of active cells: " << tria_without_cylinder.n_active_cells()
             << std::endl;
 
-  std::ofstream out("bulk_tria.eps");
+  std::ofstream out("tria_without_cylinder.eps");
   GridOut       grid_out;
-  grid_out.write_eps(bulk_tria, out);
-  std::cout << "Grid written to grid-1.eps" << std::endl;
+  grid_out.write_eps(tria_without_cylinder, out);
+  std::cout << "Grid written to tria_without_cylinder.eps" << std::endl;
 
 }
 
