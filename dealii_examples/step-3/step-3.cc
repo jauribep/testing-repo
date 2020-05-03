@@ -167,9 +167,9 @@ void Step3::make_grid()
   // manifold ids of the interior boundary cells to 0
   // (polar_manifold_id).
   Triangulation<2> cylinder_tria;
-  const double shell_region_width = 0.03
-  const double inner_radius = 0.05 + shell_region_width
-  const double outer_radius = 0.41 / 4.0
+  const double shell_region_width = 0.03;
+  const double inner_radius = 0.05 + shell_region_width;
+  const double outer_radius = 0.41 / 4.0;
   GridGenerator::hyper_cube_with_cylindrical_hole(cylinder_tria,
                                                   0.05 + shell_region_width,
                                                   0.41 / 4.0);
