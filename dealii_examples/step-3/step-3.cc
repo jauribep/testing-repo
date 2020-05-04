@@ -173,6 +173,19 @@ void Step3::make_grid()
   GridGenerator::hyper_cube_with_cylindrical_hole(cylinder_tria,
                                                   inner_radius,
                                                   outer_radius);
+  // The bulk cells are not quite squares, so we need to move the left
+  // and right sides of cylinder_tria inwards so that it fits in
+  // bulk_tria:
+  for (const auto &cell : cylinder_tria.active_cell_iterators())
+    for (unsigned int vertex_n = 0;
+         vertex_n < GeometryInfo<2>::vertices_per_cell;
+         ++vertex_n)
+      {
+        if (std::abs(cell->vertex(vertex_n)[0] - -0.41 / 4.0) < 1e-10)
+          cell->vertex(vertex_n)[0] = -0.1;
+        else if (std::abs(cell->vertex(vertex_n)[0] - 0.41 / 4.0) < 1e-10)
+          cell->vertex(vertex_n)[0] = 0.1;
+      }
 
 
 
@@ -180,10 +193,10 @@ void Step3::make_grid()
   std::cout << "Number of active cells: " << cylinder_tria.n_active_cells()
             << std::endl;
 
-  std::ofstream out("cylinder_tria.eps");
+  std::ofstream out("cylinder_tria2.eps");
   GridOut       grid_out;
   grid_out.write_eps(cylinder_tria, out);
-  std::cout << "Grid written to cylinder_tria.eps" << std::endl;
+  std::cout << "Grid written to cylinder_tria2.eps" << std::endl;
 
 }
 
