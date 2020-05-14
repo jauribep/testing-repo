@@ -195,8 +195,8 @@ void Step3::make_grid()
 
   std::ofstream out("cylinder_tria2.eps");
   GridOut       grid_out;
-  grid_out.write_eps(cylinder_tria, out);
-  std::cout << "Grid written to cylinder_tria2.eps" << std::endl;
+  grid_out.write_vtk(cylinder_tria, out);
+  std::cout << "Grid written to cylinder_tria2.vtk" << std::endl;
 
 }
 
