@@ -193,7 +193,7 @@ void Step3::make_grid()
   std::cout << "Number of active cells: " << cylinder_tria.n_active_cells()
             << std::endl;
 
-  std::ofstream out("cylinder_tria2.eps");
+  std::ofstream out("cylinder_tria2.vtk");
   GridOut       grid_out;
   grid_out.write_vtk(cylinder_tria, out);
   std::cout << "Grid written to cylinder_tria2.vtk" << std::endl;
