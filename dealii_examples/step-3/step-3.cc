@@ -111,6 +111,7 @@ void Step3::make_grid()
   // squares, these have pretty good aspect ratios.
 
   //Parámetros
+  const types::manifold_id polar_manifold_id = 0;
   const types::manifold_id tfi_manifold_id   = 1;
   const std::vector<unsigned int> bulk_cells = {22u, 4u};
   const Point<2> bulk_P1(0.0, 0.0);
@@ -224,11 +225,23 @@ void Step3::make_grid()
 
      // Make the tolerance as large as possible since these cells can
      // be quite close together
+     const double vertex_tolerance =
+       std::min(internal::minimal_vertex_distance(shell_tria),
+                internal::minimal_vertex_distance(cylinder_tria)) *
+       0.5;
 
-     std::ofstream out4("4_shell_tria.vtk");
-     GridOut       grid_out4;
-     grid_out4.write_vtk(shell_tria, out4);
-     std::cout << "Grid written to shell_tria.vtk" << std::endl;
+     shell_tria.set_all_manifold_ids(polar_manifold_id);
+     Triangulation<2> temp;
+     GridGenerator::merge_triangulations(
+       shell_tria, cylinder_tria, temp, vertex_tolerance, true);
+     cylinder_tria = std::move(temp);
+
+     std::ofstream out("5_cylinder_tria.vtk");
+     GridOut       grid_out;
+     grid_out.write_vtk(cylinder_tria, out);
+     std::cout << "Grid written to cylinder_tria.vtk" << std::endl;
+
+
    }
 
 
@@ -243,11 +256,6 @@ void Step3::make_grid()
   GridOut       grid_out2;
   grid_out2.write_vtk(tria_without_cylinder, out2);
   std::cout << "Grid written to tria_without_cylinder.vtk" << std::endl;
-
-  std::ofstream out3("3_cylinder_tria.vtk");
-  GridOut       grid_out3;
-  grid_out3.write_vtk(cylinder_tria, out3);
-  std::cout << "Grid written to cylinder_tria.vtk" << std::endl;
 
 }
 
