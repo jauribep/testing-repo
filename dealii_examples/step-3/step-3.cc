@@ -111,9 +111,9 @@ void Step3::make_grid()
   // squares, these have pretty good aspect ratios.
 
   //Parámetros
-  const std::std::vector<unsigned int> bulk_cells = {22u, 4u};
-  const Point<2> bulk_P1 = (0.0, 0.0);
-  const Point<2> bulk_P2 = (2.2, 0.41);
+  const std::vector<unsigned int> bulk_cells = {22u, 4u};
+  const Point<2> bulk_P1(0.0, 0.0);
+  const Point<2> bulk_P2(2.2, 0.41);
 
   Triangulation<2> bulk_tria;
   GridGenerator::subdivided_hyper_rectangle(bulk_tria,
