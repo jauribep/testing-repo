@@ -224,6 +224,11 @@ void Step3::make_grid()
 
      // Make the tolerance as large as possible since these cells can
      // be quite close together
+
+     std::ofstream out4("4_shell_tria.vtk");
+     GridOut       grid_out4;
+     grid_out4.write_vtk(shell_tria, out4);
+     std::cout << "Grid written to shell_tria.vtk" << std::endl;
    }
 
 
@@ -243,11 +248,6 @@ void Step3::make_grid()
   GridOut       grid_out3;
   grid_out3.write_vtk(cylinder_tria, out3);
   std::cout << "Grid written to cylinder_tria.vtk" << std::endl;
-
-  std::ofstream out4("4_shell_tria.vtk");
-  GridOut       grid_out4;
-  grid_out4.write_vtk(shell_tria, out4);
-  std::cout << "Grid written to shell_tria.vtk" << std::endl;
 
 }
 
