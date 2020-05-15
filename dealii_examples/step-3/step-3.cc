@@ -87,7 +87,23 @@ Step3::Step3()
   , dof_handler(triangulation)
 {}
 
-
+//Funciones
+namespace internal
+{
+  // Find the minimal distance between two vertices. This is useful for
+  // computing a tolerance for merging vertices in
+  // GridTools::merge_triangulations.
+  template <int dim, int spacedim>
+  double
+  minimal_vertex_distance(const Triangulation<dim, spacedim> &triangulation)
+  {
+    double length = std::numeric_limits<double>::max();
+    for (const auto &cell : triangulation.active_cell_iterators())
+      for (unsigned int n = 0; n < GeometryInfo<dim>::lines_per_cell; ++n)
+        length = std::min(length, cell->line(n)->diameter());
+    return length;
+  }
+} // namespace internal
 
 void Step3::make_grid()
 {
@@ -124,24 +140,6 @@ void Step3::make_grid()
   const unsigned int n_shells = 2;
   const double skewness = 2.0;
   const unsigned int n_cells_per_shell = 8;
-
-  //Funciones
-  namespace internal
-  {
-    // Find the minimal distance between two vertices. This is useful for
-    // computing a tolerance for merging vertices in
-    // GridTools::merge_triangulations.
-    template <int dim, int spacedim>
-    double
-    minimal_vertex_distance(const Triangulation<dim, spacedim> &triangulation)
-    {
-      double length = std::numeric_limits<double>::max();
-      for (const auto &cell : triangulation.active_cell_iterators())
-        for (unsigned int n = 0; n < GeometryInfo<dim>::lines_per_cell; ++n)
-          length = std::min(length, cell->line(n)->diameter());
-      return length;
-    }
-  } // namespace internal
 
   Triangulation<2> bulk_tria;
   GridGenerator::subdivided_hyper_rectangle(bulk_tria,
