@@ -111,17 +111,18 @@ void Step3::make_grid()
   // squares, these have pretty good aspect ratios.
 
   //Parámetros
+  const types::manifold_id tfi_manifold_id   = 1;
   const std::vector<unsigned int> bulk_cells = {22u, 4u};
   const Point<2> bulk_P1(0.0, 0.0);
   const Point<2> bulk_P2(2.2, 0.41);
   const double shell_region_width = 0.03;
   const double cyl_inner_radius = 0.05 + shell_region_width;
   const double cyl_outer_radius = 0.41 / 4.0;
-  const double shell_inner_radius = 0.05
-  const double shell_outer_radius = 0.05 + shell_region_width
-  const unsigned int n_shells = 2
-  const double skewness = 2.0
-  const unsigned int n_cells_per_shell = 8
+  const double shell_inner_radius = 0.05;
+  const double shell_outer_radius = 0.05 + shell_region_width;
+  const unsigned int n_shells = 2;
+  const double skewness = 2.0;
+  const unsigned int n_cells_per_shell = 8;
 
   Triangulation<2> bulk_tria;
   GridGenerator::subdivided_hyper_rectangle(bulk_tria,
@@ -233,19 +234,19 @@ void Step3::make_grid()
   // std::cout << "Number of active cells: " << bulk_tria.n_active_cells()
   //           << std::endl;
 
-  std::ofstream out("2_tria_without_cylinder.vtk");
-  GridOut       grid_out;
-  grid_out.write_vtk(tria_without_cylinder, out);
+  std::ofstream out2("2_tria_without_cylinder.vtk");
+  GridOut       grid_out2;
+  grid_out2.write_vtk(tria_without_cylinder, out2);
   std::cout << "Grid written to tria_without_cylinder.vtk" << std::endl;
 
-  std::ofstream out("3_cylinder_tria.vtk");
-  GridOut       grid_out;
-  grid_out.write_vtk(cylinder_tria, out);
+  std::ofstream out3("3_cylinder_tria.vtk");
+  GridOut       grid_out3;
+  grid_out3.write_vtk(cylinder_tria, out3);
   std::cout << "Grid written to cylinder_tria.vtk" << std::endl;
 
-  std::ofstream out("4_shell_tria.vtk");
-  GridOut       grid_out;
-  grid_out.write_vtk(shell_tria, out);
+  std::ofstream out4("4_shell_tria.vtk");
+  GridOut       grid_out4;
+  grid_out4.write_vtk(shell_tria, out4);
   std::cout << "Grid written to shell_tria.vtk" << std::endl;
 
 }
