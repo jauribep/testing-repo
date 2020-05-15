@@ -109,11 +109,17 @@ void Step3::make_grid()
 
   // We begin by setting up a grid that is 4 by 22 cells. While not
   // squares, these have pretty good aspect ratios.
+
+  //Parámetros
+  const std::std::vector<unsigned int> bulk_cells = {22u, 4u};
+  const Point<2> bulk_P1 = (0.0, 0.0);
+  const Point<2> bulk_P2 = (2.2, 0.41);
+
   Triangulation<2> bulk_tria;
   GridGenerator::subdivided_hyper_rectangle(bulk_tria,
-                                            {22u, 4u},
-                                            Point<2>(0.0, 0.0),
-                                            Point<2>(2.2, 0.41));
+                                            bulk_cells,
+                                            bulk_P1,
+                                            bulk_P2);
   // bulk_tria now looks like this:
   //
   //   +--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+
@@ -137,66 +143,100 @@ void Step3::make_grid()
   // 2. Finds the location of the vertex marked with 'O' and uses that to
   //    calculate the shift vector for aligning cylinder_tria with
   //    tria_without_cylinder.
-  std::set<Triangulation<2>::active_cell_iterator> cells_to_remove;
-  Tensor<1, 2> cylinder_triangulation_offset;
-  for (const auto &cell : bulk_tria.active_cell_iterators())
-    {
-      if ((cell->center() - Point<2>(0.2, 0.2)).norm() < 0.15)
-        cells_to_remove.insert(cell);
+  // std::set<Triangulation<2>::active_cell_iterator> cells_to_remove;
+  // Tensor<1, 2> cylinder_triangulation_offset;
+  // for (const auto &cell : bulk_tria.active_cell_iterators())
+  //   {
+  //     if ((cell->center() - Point<2>(0.2, 0.2)).norm() < 0.15)
+  //       cells_to_remove.insert(cell);
+  //
+  //     if (cylinder_triangulation_offset == Tensor<1, 2>())
+  //       {
+  //         for (unsigned int vertex_n = 0;
+  //              vertex_n < GeometryInfo<2>::vertices_per_cell;
+  //              ++vertex_n)
+  //           if (cell->vertex(vertex_n) == Point<2>())
+  //             {
+  //               // cylinder_tria is centered at zero, so we need to
+  //               // shift it up and to the right by two cells:
+  //               cylinder_triangulation_offset =
+  //                 2.0 * (cell->vertex(3) - Point<2>());
+  //               break;
+  //             }
+  //       }
+  //   }
+  // Triangulation<2> tria_without_cylinder;
+  // GridGenerator::create_triangulation_with_removed_cells(
+  //   bulk_tria, cells_to_remove, tria_without_cylinder);
+  //
+  // // set up the cylinder triangulation. Note that this function sets the
+  // // manifold ids of the interior boundary cells to 0
+  // // (polar_manifold_id).
+  // Triangulation<2> cylinder_tria;
+  // const double shell_region_width = 0.03;
+  // const double inner_radius = 0.05 + shell_region_width;
+  // const double outer_radius = 0.41 / 4.0;
+  // GridGenerator::hyper_cube_with_cylindrical_hole(cylinder_tria,
+  //                                                 inner_radius,
+  //                                                 outer_radius);
+  // // The bulk cells are not quite squares, so we need to move the left
+  // // and right sides of cylinder_tria inwards so that it fits in
+  // // bulk_tria:
+  // for (const auto &cell : cylinder_tria.active_cell_iterators())
+  //   for (unsigned int vertex_n = 0;
+  //        vertex_n < GeometryInfo<2>::vertices_per_cell;
+  //        ++vertex_n)
+  //     {
+  //       if (std::abs(cell->vertex(vertex_n)[0] - -0.41 / 4.0) < 1e-10)
+  //         cell->vertex(vertex_n)[0] = -0.1;
+  //       else if (std::abs(cell->vertex(vertex_n)[0] - 0.41 / 4.0) < 1e-10)
+  //         cell->vertex(vertex_n)[0] = 0.1;
+  //     }
+  //
+  // // Assign interior manifold ids to be the TFI id.
+  // for (const auto &cell : cylinder_tria.active_cell_iterators())
+  //  {
+  //    cell->set_manifold_id(tfi_manifold_id);
+  //    for (unsigned int face_n = 0; face_n < GeometryInfo<2>::faces_per_cell;
+  //         ++face_n)
+  //      if (!cell->face(face_n)->at_boundary())
+  //        cell->face(face_n)->set_manifold_id(tfi_manifold_id);
+  //  }
+  // if (0.0 < shell_region_width)
+  //  {
+  //    Assert(0 < n_shells,
+  //           ExcMessage("If the shell region has positive width then "
+  //                      "there must be at least one shell."));
+  //    Triangulation<2> shell_tria;
+  //    const double inner_radius = 0.05
+  //    const double outer_radius = 0.05 + shell_region_width
+  //    const unsigned int n_shells = 2
+  //    const double skewness = 2.0
+  //    const unsigned int n_cells_per_shell = 8
+  //    GridGenerator::concentric_hyper_shells(shell_tria,
+  //                                           Point<2>(),
+  //                                           inner_radius,
+  //                                           outer_radius,
+  //                                           n_shells,
+  //                                           skewness,
+  //                                           n_cells_per_shell);
+  //
+  //    // Make the tolerance as large as possible since these cells can
+  //    // be quite close together
+  //  }
 
-      if (cylinder_triangulation_offset == Tensor<1, 2>())
-        {
-          for (unsigned int vertex_n = 0;
-               vertex_n < GeometryInfo<2>::vertices_per_cell;
-               ++vertex_n)
-            if (cell->vertex(vertex_n) == Point<2>())
-              {
-                // cylinder_tria is centered at zero, so we need to
-                // shift it up and to the right by two cells:
-                cylinder_triangulation_offset =
-                  2.0 * (cell->vertex(3) - Point<2>());
-                break;
-              }
-        }
-    }
-  Triangulation<2> tria_without_cylinder;
-  GridGenerator::create_triangulation_with_removed_cells(
-    bulk_tria, cells_to_remove, tria_without_cylinder);
-
-  // set up the cylinder triangulation. Note that this function sets the
-  // manifold ids of the interior boundary cells to 0
-  // (polar_manifold_id).
-  Triangulation<2> cylinder_tria;
-  const double shell_region_width = 0.03;
-  const double inner_radius = 0.05 + shell_region_width;
-  const double outer_radius = 0.41 / 4.0;
-  GridGenerator::hyper_cube_with_cylindrical_hole(cylinder_tria,
-                                                  inner_radius,
-                                                  outer_radius);
-  // The bulk cells are not quite squares, so we need to move the left
-  // and right sides of cylinder_tria inwards so that it fits in
-  // bulk_tria:
-  for (const auto &cell : cylinder_tria.active_cell_iterators())
-    for (unsigned int vertex_n = 0;
-         vertex_n < GeometryInfo<2>::vertices_per_cell;
-         ++vertex_n)
-      {
-        if (std::abs(cell->vertex(vertex_n)[0] - -0.41 / 4.0) < 1e-10)
-          cell->vertex(vertex_n)[0] = -0.1;
-        else if (std::abs(cell->vertex(vertex_n)[0] - 0.41 / 4.0) < 1e-10)
-          cell->vertex(vertex_n)[0] = 0.1;
-      }
 
 
 
 
-  std::cout << "Number of active cells: " << cylinder_tria.n_active_cells()
+
+  std::cout << "Number of active cells: " << bulk_tria.n_active_cells()
             << std::endl;
 
-  std::ofstream out("cylinder_tria2.vtk");
+  std::ofstream out("1_bulk_tria.vtk");
   GridOut       grid_out;
-  grid_out.write_vtk(cylinder_tria2, out);
-  std::cout << "Grid written to cylinder_tria2.vtk" << std::endl;
+  grid_out.write_vtk(bulk_tria, out);
+  std::cout << "Grid written to bulk_tria.vtk" << std::endl;
 
 }
 
