@@ -51,7 +51,7 @@
 #include <fstream>
 #include <iostream>
 
-#include "malla.h"
+#include <malla.h>
 
 using namespace dealii;
 
