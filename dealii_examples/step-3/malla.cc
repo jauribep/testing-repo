@@ -19,8 +19,6 @@
 
 #include "malla.h"
 
-DEAL_II_NAMESPACE_OPEN
-
 namespace malla
 {
   //Funciones
@@ -179,5 +177,3 @@ namespace malla
      }
   }
 }
-
-DEAL_II_NAMESPACE_CLOSE
