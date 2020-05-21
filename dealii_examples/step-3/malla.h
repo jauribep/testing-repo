@@ -18,7 +18,7 @@ DEAL_II_NAMESPACE_OPEN
 
 namespace malla
 {
-  void malla_personal()
+  void malla_personal();
 } // namespace malla
 
 DEAL_II_NAMESPACE_CLOSE
