@@ -13,6 +13,8 @@
 #include <cmath>
 #include <limits>
 
+#include <deal.II/grid/grid_out.h>
+
 #include <deal.II/numerics/data_out.h>
 #include <fstream>
 #include <iostream>
