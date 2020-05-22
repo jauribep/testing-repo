@@ -1,5 +1,6 @@
 file(REMOVE_RECURSE
   "CMakeFiles/step-3.dir/step-3.cc.o"
+  "CMakeFiles/step-3.dir/malla.cc.o"
   "step-3.pdb"
   "step-3"
 )

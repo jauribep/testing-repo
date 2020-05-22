@@ -214,6 +214,33 @@ release/fast:
 	$(MAKE) -f CMakeFiles/release.dir/build.make CMakeFiles/release.dir/build
 .PHONY : release/fast
 
+malla.o: malla.cc.o
+
+.PHONY : malla.o
+
+# target to build an object file
+malla.cc.o:
+	$(MAKE) -f CMakeFiles/step-3.dir/build.make CMakeFiles/step-3.dir/malla.cc.o
+.PHONY : malla.cc.o
+
+malla.i: malla.cc.i
+
+.PHONY : malla.i
+
+# target to preprocess a source file
+malla.cc.i:
+	$(MAKE) -f CMakeFiles/step-3.dir/build.make CMakeFiles/step-3.dir/malla.cc.i
+.PHONY : malla.cc.i
+
+malla.s: malla.cc.s
+
+.PHONY : malla.s
+
+# target to generate assembly for a file
+malla.cc.s:
+	$(MAKE) -f CMakeFiles/step-3.dir/build.make CMakeFiles/step-3.dir/malla.cc.s
+.PHONY : malla.cc.s
+
 step-3.o: step-3.cc.o
 
 .PHONY : step-3.o
@@ -257,6 +284,9 @@ help:
 	@echo "... step-3"
 	@echo "... run"
 	@echo "... release"
+	@echo "... malla.o"
+	@echo "... malla.i"
+	@echo "... malla.s"
 	@echo "... step-3.o"
 	@echo "... step-3.i"
 	@echo "... step-3.s"
