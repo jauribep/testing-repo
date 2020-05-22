@@ -52,7 +52,6 @@
 #include <iostream>
 
 #include "malla.h"
-#include "malla.cc"
 
 using namespace dealii;
 
