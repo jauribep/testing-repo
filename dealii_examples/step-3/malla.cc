@@ -172,10 +172,10 @@ namespace malla
          shell_tria, cylinder_tria, temp, vertex_tolerance, true);
        cylinder_tria = std::move(temp);
 
-       std::ofstream out("5_cylinder_tria2.vtk");
+       std::ofstream out("5_merged_tria.vtk");
        GridOut       grid_out;
        grid_out.write_vtk(cylinder_tria, out);
-       std::cout << "Grid written to cylinder_tria2.vtk" << std::endl;
+       std::cout << "Grid written to cylinder_tria.vtk" << std::endl;
 
 
      }
