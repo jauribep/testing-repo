@@ -19,6 +19,8 @@
 
 #include "malla.h"
 
+using namespace dealii;
+
 namespace malla
 {
   //Funciones
