@@ -11,12 +11,12 @@ SET(TARGET "step-3")
 # you may want to either replace the following statement by something like
 #    FILE(GLOB_RECURSE TARGET_SRC  "source/*.cc")
 #    FILE(GLOB_RECURSE TARGET_INC  "include/*.h")
-#    SET(TARGET_SRC ${TARGET_SRC}  ${TARGET_INC}) 
+#    SET(TARGET_SRC ${TARGET_SRC}  ${TARGET_INC})
 # or switch altogether to the large project CMakeLists.txt file discussed
 # in the "CMake in user projects" page accessible from the "User info"
 # page of the documentation.
 SET(TARGET_SRC
-  ${TARGET}.cc
+  ${TARGET}.cc malla.cc
   )
 
 # Usually, you will not need to modify anything beyond this point...
