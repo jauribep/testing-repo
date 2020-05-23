@@ -171,13 +171,18 @@ namespace malla
        GridGenerator::merge_triangulations(
          shell_tria, cylinder_tria, temp, vertex_tolerance, true);
        cylinder_tria = std::move(temp);
-
-       std::ofstream out("5_merged_tria.vtk");
-       GridOut       grid_out;
-       grid_out.write_vtk(cylinder_tria, out);
-       std::cout << "Grid written to cylinder_tria.vtk" << std::endl;
-
-
      }
+    GridTools::shift(cylinder_triangulation_offset, cylinder_tria);
+
+    std::cout << "cylinder_triangulation_offset:" <<
+    cylinder_triangulation_offset<<std::endl;
+    
+    std::ofstream out("6_shifted_tria.vtk");
+    GridOut       grid_out;
+    grid_out.write_vtk(cylinder_tria, out);
+    std::cout << "Grid written to 6_shifted_tria.vtk" << std::endl;
+
+
+
   }
 }
