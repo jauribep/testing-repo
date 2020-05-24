@@ -16,7 +16,7 @@
 
 namespace malla
 {
-  void malla_personal();
+  void malla_personal(Triangulation<2>);
 } // namespace malla
 
 #endif

@@ -43,7 +43,7 @@ namespace malla
     }
   } // namespace internal
 
-  void malla_personal()
+  void malla_personal(Triangulation<2> tria)
   {
     //Parámetros
     const types::manifold_id polar_manifold_id = 0;
@@ -174,13 +174,32 @@ namespace malla
      }
     GridTools::shift(cylinder_triangulation_offset, cylinder_tria);
 
-    std::cout << "cylinder_triangulation_offset:" <<
-    cylinder_triangulation_offset<<std::endl;
-    
-    std::ofstream out("6_shifted_tria.vtk");
+    // Compute the tolerance again, since the shells may be very close to
+    // each-other:
+    const double vertex_tolerance =
+      std::min(internal::minimal_vertex_distance(tria_without_cylinder),
+               internal::minimal_vertex_distance(cylinder_tria)) /
+      10;
+    GridGenerator::merge_triangulations(
+      tria_without_cylinder, cylinder_tria, tria, vertex_tolerance, true);
+
+    // Ensure that all manifold ids on a polar cell really are set to the
+    // polar manifold id:
+    for (const auto &cell : tria.active_cell_iterators())
+      if (cell->manifold_id() == polar_manifold_id)
+        cell->set_all_manifold_ids(polar_manifold_id);
+
+    // Ensure that all other manifold ids (including the interior faces
+    // opposite the cylinder) are set to the flat manifold id:
+    for (const auto &cell : tria.active_cell_iterators())
+      if (cell->manifold_id() != polar_manifold_id &&
+          cell->manifold_id() != tfi_manifold_id)
+        cell->set_all_manifold_ids(numbers::flat_manifold_id);
+
+    std::ofstream out("7_merged_tria.vtk");
     GridOut       grid_out;
-    grid_out.write_vtk(cylinder_tria, out);
-    std::cout << "Grid written to 6_shifted_tria.vtk" << std::endl;
+    grid_out.write_vtk(tria, out);
+    std::cout << "Grid written to 7_merged_tria.vtk" << std::endl;
 
 
 
