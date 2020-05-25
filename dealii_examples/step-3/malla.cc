@@ -43,7 +43,7 @@ namespace malla
     }
   } // namespace internal
 
-  void malla_personal(Triangulation<2> tria)
+  void malla_personal()
   {
     //Parámetros
     const types::manifold_id polar_manifold_id = 0;
@@ -59,6 +59,7 @@ namespace malla
     const unsigned int n_shells = 2;
     const double skewness = 2.0;
     const unsigned int n_cells_per_shell = 8;
+    Triangulation<2> tria;
 
     //Construcción de la malla
     Triangulation<2> bulk_tria;
