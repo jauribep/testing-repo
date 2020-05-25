@@ -43,21 +43,9 @@ malla.h
 /home/dealii/git/testing-repo/dealii_examples/step-3/malla.h
 
 /home/dealii/git/testing-repo/dealii_examples/step-3/malla.h
-deal.II/base/config.h
--
-deal.II/base/exceptions.h
--
-deal.II/base/function.h
--
-deal.II/base/point.h
--
-deal.II/base/table.h
--
 deal.II/grid/tria.h
 -
-array
--
-map
+deal.II/dofs/dof_handler.h
 -
 
 /home/dealii/git/testing-repo/dealii_examples/step-3/step-3.cc
