@@ -221,10 +221,41 @@ namespace malla
     for (Point<2> *const ptr : cylinder_pointers)
       *ptr += Point<2>(0.2, 0.2) - center;
 
-    // std::ofstream out("7_merged_tria.vtk");
-    // GridOut       grid_out;
-    // grid_out.write_vtk(tria, out);
-    // std::cout << "Grid written to 7_merged_tria.vtk" << std::endl;
+    // attach manifolds
+    PolarManifold<2> polar_manifold(Point<2>(0.2, 0.2));
+    tria.set_manifold(polar_manifold_id, polar_manifold);
+    TransfiniteInterpolationManifold<2> inner_manifold;
+    inner_manifold.initialize(tria);
+    tria.set_manifold(tfi_manifold_id, inner_manifold);
+
+    if (colorize)
+      for (const auto &face : tria.active_face_iterators())
+        if (face->at_boundary())
+          {
+            const Point<2> center = face->center();
+            // left side
+            if (std::abs(center[0] - 0.0) < 1e-10)
+              face->set_boundary_id(0);
+            // right side
+            else if (std::abs(center[0] - 2.2) < 1e-10)
+              face->set_boundary_id(1);
+            // cylinder boundary
+            else if (face->manifold_id() == polar_manifold_id)
+              face->set_boundary_id(2);
+            // sides of channel
+            else
+              {
+                Assert(std::abs(center[1] - 0.00) < 1.0e-10 ||
+                         std::abs(center[1] - 0.41) < 1.0e-10,
+                       ExcInternalError());
+                face->set_boundary_id(3);
+              }
+          }
+
+    std::ofstream out("8_final_tria.vtk");
+    GridOut       grid_out;
+    grid_out.write_vtk(tria, out);
+    std::cout << "Grid written to 8_final_tria.vtk" << std::endl;
 
 
 
