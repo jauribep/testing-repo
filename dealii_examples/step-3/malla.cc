@@ -197,10 +197,34 @@ namespace malla
           cell->manifold_id() != tfi_manifold_id)
         cell->set_all_manifold_ids(numbers::flat_manifold_id);
 
-    std::ofstream out("7_merged_tria.vtk");
-    GridOut       grid_out;
-    grid_out.write_vtk(tria, out);
-    std::cout << "Grid written to 7_merged_tria.vtk" << std::endl;
+    // We need to calculate the current center so that we can move it later:
+    // to start get a unique list of (points to) vertices on the cylinder
+    std::vector<Point<2> *> cylinder_pointers;
+    for (const auto &face : tria.active_face_iterators())
+      if (face->manifold_id() == polar_manifold_id)
+        {
+          cylinder_pointers.push_back(&face->vertex(0));
+          cylinder_pointers.push_back(&face->vertex(1));
+        }
+    // de-duplicate
+    std::sort(cylinder_pointers.begin(), cylinder_pointers.end());
+    cylinder_pointers.erase(std::unique(cylinder_pointers.begin(),
+                                        cylinder_pointers.end()),
+                            cylinder_pointers.end());
+
+    // find the current center...
+    Point<2> center;
+    for (const Point<2> *const ptr : cylinder_pointers)
+      center += *ptr / double(cylinder_pointers.size());
+
+    // and recenter at (0.2, 0.2)
+    for (Point<2> *const ptr : cylinder_pointers)
+      *ptr += Point<2>(0.2, 0.2) - center;
+
+    // std::ofstream out("7_merged_tria.vtk");
+    // GridOut       grid_out;
+    // grid_out.write_vtk(tria, out);
+    // std::cout << "Grid written to 7_merged_tria.vtk" << std::endl;
 
 
 
