@@ -7,6 +7,7 @@
 namespace malla
 {
   void malla_personal();
+  void malla_personal2();
 } // namespace malla
 
 #endif

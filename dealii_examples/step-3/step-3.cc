@@ -105,7 +105,7 @@ void Step3::make_grid()
   //   triangulation.refine_global(2);
 
   //Malla personalizada
-  malla::malla_personal();
+  malla::malla_personal2();
 
   // std::cout << "Number of active cells: " << bulk_tria.n_active_cells()
   //           << std::endl;

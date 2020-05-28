@@ -252,12 +252,79 @@ namespace malla
               }
           }
 
-    std::ofstream out("8_final_tria.vtk");
-    GridOut       grid_out;
-    grid_out.write_vtk(tria, out);
-    std::cout << "Grid written to 8_final_tria.vtk" << std::endl;
+    // std::ofstream out("8_final_tria.vtk");
+    // GridOut       grid_out;
+    // grid_out.write_vtk(tria, out);
+    // std::cout << "Grid written to 8_final_tria.vtk" << std::endl;
+  }
 
+  void malla_personal2()
+  {
+    //Parameters
+    const types::manifold_id polar_manifold_id = 0;
+    const types::manifold_id tfi_manifold_id   = 1;
+    const std::vector<unsigned int> bulk_cells = {100u, 100u};
+    const Point<2> bulk_P1(0.0, 0.0);
+    const Point<2> bulk_P2(1000.0, 1000.0);
+    const Point<2> well_loc_1(500.0, 500.0); //well location
+    const double re = 100.0; //drainage radius
+    // const double shell_region_width = 0.03;
+    // const double cyl_inner_radius = 0.05 + shell_region_width;
+    // const double cyl_outer_radius = 0.41 / 4.0;
+    // const double shell_inner_radius = 0.05;
+    // const double shell_outer_radius = 0.05 + shell_region_width;
+    // const unsigned int n_shells = 2;
+    // const double skewness = 2.0;
+    // const unsigned int n_cells_per_shell = 8;
+    // Triangulation<2> tria;
 
+    //Bulk grid creation
+    Triangulation<2> bulk_tria;
+    GridGenerator::subdivided_hyper_rectangle(bulk_tria,
+                                              bulk_cells,
+                                              bulk_P1,
+                                              bulk_P2);
+
+    std::ofstream out("9_mi_bulk_tria.vtk");
+    GridOut       grid_out9;
+    grid_out9.write_vtk(bulk_tria, out);
+    std::cout << "Grid written to 9_mi_bulk_tria.vtk" << std::endl;
+
+    //Cells removing
+    std::set<Triangulation<2>::active_cell_iterator> cells_to_remove;
+    Tensor<1, 2> cylinder_triangulation_offset;
+    for (const auto &cell : bulk_tria.active_cell_iterators())
+      {
+        //Colect the cells to remove, those which center is inside re
+        if ( (cell->center() - well_loc_1).norm() < re )
+          cells_to_remove.insert(cell);
+
+        //TODO: tener en cuenta esto para mas tarde
+        // if (cylinder_triangulation_offset == Tensor<1, 2>())
+        //   {
+        //     for (unsigned int vertex_n = 0;
+        //          vertex_n < GeometryInfo<2>::vertices_per_cell;
+        //          ++vertex_n)
+        //       if (cell->vertex(vertex_n) == Point<2>())
+        //         {
+        //           // cylinder_tria is centered at zero, so we need to
+        //           // shift it up and to the right by two cells:
+        //           cylinder_triangulation_offset =
+        //             2.0 * (cell->vertex(3) - Point<2>());
+        //           break;
+        //         }
+        //   }
+      }
+
+    //Create the grid with removed cells
+    Triangulation<2> tria_without_cylinder;
+    GridGenerator::create_triangulation_with_removed_cells(
+      bulk_tria, cells_to_remove, tria_without_cylinder);
+
+    std::ofstream out("10_mi_tria_without_cylinder.vtk");
+    GridOut       grid_out10;
+    grid_out10.write_vtk(tria_without_cylinder, out);
+    std::cout << "Grid written to 10_mi_tria_without_cylinder.vtk" << std::endl;
 
   }
 }
