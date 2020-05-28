@@ -59,7 +59,7 @@ namespace malla
     const unsigned int n_shells = 2;
     const double skewness = 2.0;
     const unsigned int n_cells_per_shell = 8;
-    const bool colorize = false
+    const bool colorize = false;
     Triangulation<2> tria;
 
     //Construcción de la malla
