@@ -59,6 +59,7 @@ namespace malla
     const unsigned int n_shells = 2;
     const double skewness = 2.0;
     const unsigned int n_cells_per_shell = 8;
+    const bool colorize = false
     Triangulation<2> tria;
 
     //Construcción de la malla
@@ -261,8 +262,8 @@ namespace malla
   void malla_personal2()
   {
     //Parameters
-    const types::manifold_id polar_manifold_id = 0;
-    const types::manifold_id tfi_manifold_id   = 1;
+    // const types::manifold_id polar_manifold_id = 0;
+    // const types::manifold_id tfi_manifold_id   = 1;
     const std::vector<unsigned int> bulk_cells = {100u, 100u};
     const Point<2> bulk_P1(0.0, 0.0);
     const Point<2> bulk_P2(1000.0, 1000.0);
@@ -285,9 +286,9 @@ namespace malla
                                               bulk_P1,
                                               bulk_P2);
 
-    std::ofstream out("9_mi_bulk_tria.vtk");
+    std::ofstream out9("9_mi_bulk_tria.vtk");
     GridOut       grid_out9;
-    grid_out9.write_vtk(bulk_tria, out);
+    grid_out9.write_vtk(bulk_tria, out9);
     std::cout << "Grid written to 9_mi_bulk_tria.vtk" << std::endl;
 
     //Cells removing
@@ -321,9 +322,9 @@ namespace malla
     GridGenerator::create_triangulation_with_removed_cells(
       bulk_tria, cells_to_remove, tria_without_cylinder);
 
-    std::ofstream out("10_mi_tria_without_cylinder.vtk");
+    std::ofstream out10("10_mi_tria_without_cylinder.vtk");
     GridOut       grid_out10;
-    grid_out10.write_vtk(tria_without_cylinder, out);
+    grid_out10.write_vtk(tria_without_cylinder, out10);
     std::cout << "Grid written to 10_mi_tria_without_cylinder.vtk" << std::endl;
 
   }
