@@ -264,14 +264,14 @@ namespace malla
     //Parameters
     // const types::manifold_id polar_manifold_id = 0;
     // const types::manifold_id tfi_manifold_id   = 1;
-    const double l_bulk = 1000.0
-    const int n_cells_bulk = 50
+    const double l_bulk = 1000.0;
+    const int n_cells_bulk = 50;
     const std::vector<unsigned int> bulk_cells = {n_cells_bulk, n_cells_bulk};
     const Point<2> bulk_P1(0.0, 0.0);
     const Point<2> bulk_P2(l_bulk, l_bulk);
     const Point<2> well_loc_1(500.0, 500.0); //well location
     const double re_well_1 = 300.0; // aprox drainage radius
-    double dx = l_bulk / n_cells_bulk
+    double dx = l_bulk / n_cells_bulk;
     // const double shell_region_width = 0.03;
     // const double cyl_inner_radius = 0.05 + shell_region_width;
     // const double cyl_outer_radius = 0.41 / 4.0;
