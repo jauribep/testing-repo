@@ -301,8 +301,8 @@ namespace malla
       {
         //Colect the cells to remove, those which center is inside
         //the square re_well_1 x re_well_1
-        if ( ( (cell->center()[0] - well_loc_1[0]) < re_well_1 ) &&
-             ( (cell->center()[1] - well_loc_1[1]) < re_well_1 ) )
+        if ((std::fabs((cell->center()[0] - well_loc_1[0])) < re_well_1) &&
+             (std::fabs((cell->center()[1] - well_loc_1[1])) < re_well_1 ))
                cells_to_remove.insert(cell);
 
         //TODO: tener en cuenta esto para mas tarde
