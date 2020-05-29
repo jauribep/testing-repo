@@ -299,9 +299,11 @@ namespace malla
     Tensor<1, 2> cylinder_triangulation_offset;
     for (const auto &cell : bulk_tria.active_cell_iterators())
       {
-        //Colect the cells to remove, those which center is inside re
-        if ( (cell->center() - well_loc_1).norm() < ( re_well_1 + dx/2.0 ) )
-          cells_to_remove.insert(cell);
+        //Colect the cells to remove, those which center is inside
+        //the square re_well_1 x re_well_1
+        if ( ( (cell->center()[0] - well_loc_1[0]) < re_well_1 ) &&
+             ( (cell->center()[1] - well_loc_1[1]) < re_well_1 ) )
+               cells_to_remove.insert(cell);
 
         //TODO: tener en cuenta esto para mas tarde
         // if (cylinder_triangulation_offset == Tensor<1, 2>())
