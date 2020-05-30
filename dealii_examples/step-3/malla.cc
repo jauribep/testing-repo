@@ -265,8 +265,8 @@ namespace malla
     const types::manifold_id polar_manifold_id = 0;
     const types::manifold_id tfi_manifold_id   = 1;
     const double l_bulk = 1000.0;
-    const unsigned int n_cells_bulk = 50;
-    const unsigned int n_cells_r = 20;
+    const unsigned int n_cells_bulk = 20;
+    const unsigned int n_cells_r = 10;
     const unsigned int n_cells_tet = 8;
     const double rw_well_1 = 0.35; // well radius
     const double re_well_1 = 300.0; // aprox drainage radius
@@ -274,7 +274,7 @@ namespace malla
     const Point<2> bulk_P1(0.0, 0.0);
     const Point<2> bulk_P2(l_bulk, l_bulk);
     const Point<2> well_loc_1(500.0, 500.0); //well location
-    const double shell_region_width = re_well_1 * 0.3;
+    const double shell_region_width = re_well_1 * 0.5;
     const double cyl_inner_radius = rw_well_1 + shell_region_width;
     const double cyl_outer_radius = re_well_1;
     const double shell_inner_radius = rw_well_1;
@@ -301,22 +301,6 @@ namespace malla
         if ((std::fabs((cell->center()[0] - well_loc_1[0])) < re_well_1) &&
              (std::fabs((cell->center()[1] - well_loc_1[1])) < re_well_1 ))
                cells_to_remove.insert(cell);
-
-        //TODO: tener en cuenta esto para mas tarde
-        // if (cylinder_triangulation_offset == Tensor<1, 2>())
-        //   {
-        //     for (unsigned int vertex_n = 0;
-        //          vertex_n < GeometryInfo<2>::vertices_per_cell;
-        //          ++vertex_n)
-        //       if (cell->vertex(vertex_n) == Point<2>())
-        //         {
-        //           // cylinder_tria is centered at zero, so we need to
-        //           // shift it up and to the right by two cells:
-        //           cylinder_triangulation_offset =
-        //             2.0 * (cell->vertex(3) - Point<2>());
-        //           break;
-        //         }
-        //   }
       }
 
     //Create the grid with removed cells
