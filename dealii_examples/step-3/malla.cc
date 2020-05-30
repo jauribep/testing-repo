@@ -266,7 +266,7 @@ namespace malla
     const types::manifold_id tfi_manifold_id   = 1;
     const double l_bulk = 1000.0;
     const unsigned int n_cells_bulk = 20;
-    const unsigned int n_cells_r = 15;
+    const unsigned int n_cells_r = 10;
     const unsigned int n_cells_tet = 8;
     const double rw_well_1 = 0.35; // well radius
     const double re_well_1 = 100.0; // aprox drainage radius
