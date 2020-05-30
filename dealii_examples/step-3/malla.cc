@@ -265,22 +265,24 @@ namespace malla
     // const types::manifold_id polar_manifold_id = 0;
     // const types::manifold_id tfi_manifold_id   = 1;
     const double l_bulk = 1000.0;
-    const int n_cells_bulk = 50;
+    const unsigned int n_cells_bulk = 50;
+    const unsigned int n_cells_r = 20;
+    const unsigned int n_cells_tet = 8;
+    const double rw_well_1 = 0.35; // well radius
+    const double re_well_1 = 300.0; // aprox drainage radius
     const std::vector<unsigned int> bulk_cells = {n_cells_bulk, n_cells_bulk};
     const Point<2> bulk_P1(0.0, 0.0);
     const Point<2> bulk_P2(l_bulk, l_bulk);
     const Point<2> well_loc_1(500.0, 500.0); //well location
-    const double re_well_1 = 300.0; // aprox drainage radius
-    double dx = l_bulk / n_cells_bulk;
-    // const double shell_region_width = 0.03;
-    // const double cyl_inner_radius = 0.05 + shell_region_width;
-    // const double cyl_outer_radius = 0.41 / 4.0;
-    // const double shell_inner_radius = 0.05;
-    // const double shell_outer_radius = 0.05 + shell_region_width;
-    // const unsigned int n_shells = 2;
-    // const double skewness = 2.0;
-    // const unsigned int n_cells_per_shell = 8;
-    // Triangulation<2> tria;
+    const double shell_region_width = re_well_1 * 0.3;
+    const double cyl_inner_radius = rw_well_1 + shell_region_width;
+    const double cyl_outer_radius = re_well_1;
+    const double shell_inner_radius = rw_well_1;
+    const double shell_outer_radius = rw_well_1 + shell_region_width;
+    const unsigned int n_shells = n_cells_r;
+    const double skewness = 2.0;
+    const unsigned int n_cells_per_shell = n_cells_tet;
+    Triangulation<2> tria;
 
     //Bulk grid creation
     Triangulation<2> bulk_tria;
@@ -288,11 +290,6 @@ namespace malla
                                               bulk_cells,
                                               bulk_P1,
                                               bulk_P2);
-
-    std::ofstream out9("9_mi_bulk_tria.vtk");
-    GridOut       grid_out9;
-    grid_out9.write_vtk(bulk_tria, out9);
-    std::cout << "Grid written to 9_mi_bulk_tria.vtk" << std::endl;
 
     //Cells removing
     std::set<Triangulation<2>::active_cell_iterator> cells_to_remove;
@@ -327,10 +324,18 @@ namespace malla
     GridGenerator::create_triangulation_with_removed_cells(
       bulk_tria, cells_to_remove, tria_without_cylinder);
 
-    std::ofstream out10("10_mi_tria_without_cylinder.vtk");
-    GridOut       grid_out10;
-    grid_out10.write_vtk(tria_without_cylinder, out10);
-    std::cout << "Grid written to 10_mi_tria_without_cylinder.vtk" << std::endl;
+    // set up the cylinder triangulation. Note that this function sets the
+    // manifold ids of the interior boundary cells to 0
+    // (polar_manifold_id).
+    Triangulation<2> cylinder_tria;
+    GridGenerator::hyper_cube_with_cylindrical_hole(cylinder_tria,
+                                                    cyl_inner_radius,
+                                                    cyl_outer_radius);
+
+    std::ofstream out("11_mi_cylinder_tria.vtk");
+    GridOut       grid_out;
+    grid_out.write_vtk(cylinder_tria, out);
+    std::cout << "Grid written to 11_mi_cylinder_tria.vtk" << std::endl;
 
   }
 }
