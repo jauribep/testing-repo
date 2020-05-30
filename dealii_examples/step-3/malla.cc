@@ -274,7 +274,7 @@ namespace malla
     const Point<2> bulk_P1(0.0, 0.0);
     const Point<2> bulk_P2(l_bulk, l_bulk);
     const Point<2> well_loc_1(500.0, 500.0); //well location
-    const double shell_region_width = re_well_1 * 0.5;
+    const double shell_region_width = re_well_1 * 0.9;
     const double cyl_inner_radius = rw_well_1 + shell_region_width;
     const double cyl_outer_radius = re_well_1;
     const double shell_inner_radius = rw_well_1;
@@ -307,6 +307,11 @@ namespace malla
     Triangulation<2> tria_without_cylinder;
     GridGenerator::create_triangulation_with_removed_cells(
       bulk_tria, cells_to_remove, tria_without_cylinder);
+
+    std::ofstream out10("10_mi_tria_without_cylinder.vtk");
+    GridOut       grid_out10;
+    grid_out10.write_vtk(tria_without_cylinder, out10);
+    std::cout << "Grid written to 10_mi_tria_without_cylinder.vtk" << std::endl;
 
     // set up the cylinder triangulation. Note that this function sets the
     // manifold ids of the interior boundary cells to 0
