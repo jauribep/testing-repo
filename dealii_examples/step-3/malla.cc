@@ -266,7 +266,7 @@ namespace malla
     const types::manifold_id tfi_manifold_id   = 1;
     const double l_bulk = 1000.0;
     const unsigned int n_cells_bulk = 20;
-    const unsigned int n_cells_r = 10;
+    const unsigned int n_cells_r = 15;
     const unsigned int n_cells_tet = 8;
     const double rw_well_1 = 0.35; // well radius
     const double re_well_1 = 300.0; // aprox drainage radius
@@ -274,7 +274,7 @@ namespace malla
     const Point<2> bulk_P1(0.0, 0.0);
     const Point<2> bulk_P2(l_bulk, l_bulk);
     const Point<2> well_loc_1(500.0, 500.0); //well location
-    const double shell_region_width = re_well_1 * 0.9;
+    const double shell_region_width = re_well_1 * 0.8;
     const double cyl_inner_radius = rw_well_1 + shell_region_width;
     const double cyl_outer_radius = re_well_1;
     const double shell_inner_radius = rw_well_1;
