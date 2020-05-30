@@ -308,11 +308,6 @@ namespace malla
     GridGenerator::create_triangulation_with_removed_cells(
       bulk_tria, cells_to_remove, tria_without_cylinder);
 
-    std::ofstream out10("10_mi_tria_without_cylinder.vtk");
-    GridOut       grid_out10;
-    grid_out10.write_vtk(tria_without_cylinder, out10);
-    std::cout << "Grid written to 10_mi_tria_without_cylinder.vtk" << std::endl;
-
     // set up the cylinder triangulation. Note that this function sets the
     // manifold ids of the interior boundary cells to 0
     // (polar_manifold_id).
@@ -360,11 +355,21 @@ namespace malla
 
     GridTools::shift(cylinder_triangulation_offset, cylinder_tria);
 
+    // Compute the tolerance again, since the shells may be very close to
+    // each-other:
+    const double vertex_tolerance =
+      std::min(internal::minimal_vertex_distance(tria_without_cylinder),
+               internal::minimal_vertex_distance(cylinder_tria)) /
+      10;
 
-    std::ofstream out("13_mi_shifted_tria.vtk");
+    GridGenerator::merge_triangulations(
+      tria_without_cylinder, cylinder_tria, tria, vertex_tolerance, true);
+
+
+    std::ofstream out("14_mi_merged_tria.vtk");
     GridOut       grid_out;
-    grid_out.write_vtk(cylinder_tria, out);
-    std::cout << "Grid written to 13_mi_shifted_tria.vtk" << std::endl;
+    grid_out.write_vtk(tria, out);
+    std::cout << "Grid written to 14_mi_merged_tria.vtk" << std::endl;
 
 
 
