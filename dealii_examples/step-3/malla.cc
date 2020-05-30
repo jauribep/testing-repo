@@ -282,6 +282,7 @@ namespace malla
     const unsigned int n_shells = n_cells_r;
     const double skewness = 2.0;
     const unsigned int n_cells_per_shell = n_cells_tet;
+    Tensor<1, 2> cylinder_triangulation_offset = well_loc_1;
     Triangulation<2> tria;
 
     //Bulk grid creation
@@ -293,7 +294,6 @@ namespace malla
 
     //Cells removing
     std::set<Triangulation<2>::active_cell_iterator> cells_to_remove;
-    Tensor<1, 2> cylinder_triangulation_offset;
     for (const auto &cell : bulk_tria.active_cell_iterators())
       {
         //Colect the cells to remove, those which center is inside
@@ -367,17 +367,15 @@ namespace malla
        GridGenerator::merge_triangulations(
          shell_tria, cylinder_tria, temp, vertex_tolerance, true);
        cylinder_tria = std::move(temp);
-
-       std::ofstream out("12_mi_merged_tria.vtk");
-       GridOut       grid_out;
-       grid_out.write_vtk(cylinder_tria, out);
-       std::cout << "Grid written to 12_mi_merged_tria.vtk" << std::endl;
-
-
      }
 
+    GridTools::shift(cylinder_triangulation_offset, cylinder_tria);
 
 
+    std::ofstream out("13_mi_shifted_tria.vtk");
+    GridOut       grid_out;
+    grid_out.write_vtk(cylinder_tria, out);
+    std::cout << "Grid written to 13_mi_shifted_tria.vtk" << std::endl;
 
 
 
