@@ -262,8 +262,8 @@ namespace malla
   void malla_personal2()
   {
     //Parameters
-    // const types::manifold_id polar_manifold_id = 0;
-    // const types::manifold_id tfi_manifold_id   = 1;
+    const types::manifold_id polar_manifold_id = 0;
+    const types::manifold_id tfi_manifold_id   = 1;
     const double l_bulk = 1000.0;
     const unsigned int n_cells_bulk = 50;
     const unsigned int n_cells_r = 20;
@@ -332,10 +332,59 @@ namespace malla
                                                     cyl_inner_radius,
                                                     cyl_outer_radius);
 
-    std::ofstream out("11_mi_cylinder_tria.vtk");
-    GridOut       grid_out;
-    grid_out.write_vtk(cylinder_tria, out);
-    std::cout << "Grid written to 11_mi_cylinder_tria.vtk" << std::endl;
+    // Assign interior manifold ids to be the TFI id.
+    for (const auto &cell : cylinder_tria.active_cell_iterators())
+     {
+       cell->set_manifold_id(tfi_manifold_id);
+       for (unsigned int face_n = 0; face_n < GeometryInfo<2>::faces_per_cell;
+            ++face_n)
+         if (!cell->face(face_n)->at_boundary())
+           cell->face(face_n)->set_manifold_id(tfi_manifold_id);
+     }
+    if (0.0 < shell_region_width)
+     {
+       Assert(0 < n_shells,
+              ExcMessage("If the shell region has positive width then "
+                         "there must be at least one shell."));
+       Triangulation<2> shell_tria;
+       GridGenerator::concentric_hyper_shells(shell_tria,
+                                              Point<2>(),
+                                              shell_inner_radius,
+                                              shell_outer_radius,
+                                              n_shells,
+                                              skewness,
+                                              n_cells_per_shell);
+
+       // Make the tolerance as large as possible since these cells can
+       // be quite close together
+       const double vertex_tolerance =
+         std::min(internal::minimal_vertex_distance(shell_tria),
+                  internal::minimal_vertex_distance(cylinder_tria)) *
+         0.5;
+
+       shell_tria.set_all_manifold_ids(polar_manifold_id);
+       Triangulation<2> temp;
+       GridGenerator::merge_triangulations(
+         shell_tria, cylinder_tria, temp, vertex_tolerance, true);
+       cylinder_tria = std::move(temp);
+
+       std::ofstream out("12_mi_merged_tria.vtk");
+       GridOut       grid_out;
+       grid_out.write_vtk(cylinder_tria, out);
+       std::cout << "Grid written to 12_mi_merged_tria.vtk" << std::endl;
+
+
+     }
+
+
+
+
+
+
+
+
+
+
 
   }
 }
