@@ -365,18 +365,54 @@ namespace malla
     GridGenerator::merge_triangulations(
       tria_without_cylinder, cylinder_tria, tria, vertex_tolerance, true);
 
+    // Ensure that all manifold ids on a polar cell really are set to the
+    // polar manifold id:
+    for (const auto &cell : tria.active_cell_iterators())
+      if (cell->manifold_id() == polar_manifold_id)
+        cell->set_all_manifold_ids(polar_manifold_id);
 
-    std::ofstream out("14_mi_merged_tria.vtk");
-    GridOut       grid_out;
-    grid_out.write_vtk(tria, out);
-    std::cout << "Grid written to 14_mi_merged_tria.vtk" << std::endl;
+    // Ensure that all other manifold ids (including the interior faces
+    // opposite the cylinder) are set to the flat manifold id:
+    for (const auto &cell : tria.active_cell_iterators())
+      if (cell->manifold_id() != polar_manifold_id &&
+          cell->manifold_id() != tfi_manifold_id)
+        cell->set_all_manifold_ids(numbers::flat_manifold_id);
 
+    // attach manifolds
+    PolarManifold<2> polar_manifold(well_loc_1);
+    tria.set_manifold(polar_manifold_id, polar_manifold);
+    TransfiniteInterpolationManifold<2> inner_manifold;
+    inner_manifold.initialize(tria);
+    tria.set_manifold(tfi_manifold_id, inner_manifold);
 
+    // if (colorize)
+    //   for (const auto &face : tria.active_face_iterators())
+    //     if (face->at_boundary())
+    //       {
+    //         const Point<2> center = face->center();
+    //         // left side
+    //         if (std::abs(center[0] - 0.0) < 1e-10)
+    //           face->set_boundary_id(0);
+    //         // right side
+    //         else if (std::abs(center[0] - 2.2) < 1e-10)
+    //           face->set_boundary_id(1);
+    //         // cylinder boundary
+    //         else if (face->manifold_id() == polar_manifold_id)
+    //           face->set_boundary_id(2);
+    //         // sides of channel
+    //         else
+    //           {
+    //             Assert(std::abs(center[1] - 0.00) < 1.0e-10 ||
+    //                      std::abs(center[1] - 0.41) < 1.0e-10,
+    //                    ExcInternalError());
+    //             face->set_boundary_id(3);
+    //           }
+    //       }
 
-
-
-
-
+    // std::ofstream out("14_mi_merged_tria.vtk");
+    // GridOut       grid_out;
+    // grid_out.write_vtk(tria, out);
+    // std::cout << "Grid written to 14_mi_merged_tria.vtk" << std::endl;
 
   }
 }
