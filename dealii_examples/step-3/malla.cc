@@ -295,7 +295,7 @@ namespace malla
 
     std::cout << "Hola" << std::endl;
 
-    std::cout << "well_loc0 " << well_loc[0][0] << std::endl;
+    std::cout << well_loc[0][0] << std::endl;
     std::cout << "well_loc0 " << well_loc[0][1] << std::endl;
     std::cout << "well_loc0 " << well_loc[1][0] << std::endl;
     std::cout << "well_loc0 " << well_loc[1][1] << std::endl;
