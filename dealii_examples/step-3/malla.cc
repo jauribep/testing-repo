@@ -267,8 +267,8 @@ namespace malla
     const double l_bulk = 1000.0;
     const unsigned int n_wells = 2; //number of wells
     std::vector< Point<2> > well_loc[n_wells];
-    well_loc[0] = (500.0, 500.0); //location well 1
-    well_loc[1] = (800.0, 800.0); //location_well 2
+    // well_loc[0] = (500.0, 500.0); //location well 1
+    // well_loc[1] = (800.0, 800.0); //location_well 2
     const Point<2> well_loc_1(500.0, 500.0); //well location
     const Point<2> well_loc_2(800.0, 800.0); //well location
     const unsigned int n_cells_bulk = 10;
