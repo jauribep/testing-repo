@@ -287,7 +287,7 @@ namespace malla
     const unsigned int n_shells = n_cells_r;
     const double skewness = 2.0;
     const unsigned int n_cells_per_shell = n_cells_tet;
-    Tensor<1, 2> cylinder_triangulation_offset = well_loc_1;
+    //Tensor<1, 2> cylinder_triangulation_offset = well_loc_1;
     Triangulation<2> tria;
 
     well_loc[0].push_back(well_loc_1);
