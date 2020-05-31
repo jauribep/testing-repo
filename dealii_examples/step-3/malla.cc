@@ -266,7 +266,7 @@ namespace malla
     const types::manifold_id tfi_manifold_id   = 1;
     const double l_bulk = 1000.0;
     const unsigned int n_wells = 2; //number of wells
-    std::vector< vector<double> > well_loc[n_wells];
+    std::vector<vector<const double>> well_loc[n_wells];
     const std::vector<double> well_loc_1 = {500.0,500.0};
     const std::vector<double> well_loc_2 = {800.0,800.0};
     // const Point<2> well_loc_1(500.0, 500.0); //well location
