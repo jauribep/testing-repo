@@ -265,6 +265,12 @@ namespace malla
     const types::manifold_id polar_manifold_id = 0;
     const types::manifold_id tfi_manifold_id   = 1;
     const double l_bulk = 1000.0;
+    const unsigned int n_wells = 2; //number of wells
+    std::vector< Point<2> > well_loc[n_wells];
+    well_loc[0].push_back(500.0, 500.0); //location well 1
+    well_loc[1].push_back(800.0, 800.0); //location_well 2
+    const Point<2> well_loc_1(500.0, 500.0); //well location
+    const Point<2> well_loc_2(800.0, 800.0); //well location
     const unsigned int n_cells_bulk = 10;
     const unsigned int n_cells_r = 10;
     const unsigned int n_cells_tet = 8;
@@ -273,7 +279,6 @@ namespace malla
     const std::vector<unsigned int> bulk_cells = {n_cells_bulk, n_cells_bulk};
     const Point<2> bulk_P1(0.0, 0.0);
     const Point<2> bulk_P2(l_bulk, l_bulk);
-    const Point<2> well_loc_1(500.0, 500.0); //well location
     const double shell_region_width = re_well_1 * 0.8;
     const double cyl_inner_radius = rw_well_1 + shell_region_width;
     const double cyl_outer_radius = re_well_1;
@@ -284,6 +289,12 @@ namespace malla
     const unsigned int n_cells_per_shell = n_cells_tet;
     Tensor<1, 2> cylinder_triangulation_offset = well_loc_1;
     Triangulation<2> tria;
+
+
+    std::cout << well_loc[0] << std::endl;
+    std::cout << well_loc[1] << std::endl;
+
+    return 0;
 
     //Bulk grid creation
     Triangulation<2> bulk_tria;
