@@ -267,8 +267,10 @@ namespace malla
     const double l_bulk = 1000.0;
     const unsigned int n_wells = 2; //number of wells
     std::vector< Point<2> > well_loc[n_wells];
-    const Point<2> well_loc_1(500.0, 500.0); //well location
-    const Point<2> well_loc_2(800.0, 800.0); //well location
+    const std::vector<double> well_loc_1 = {500.0,500.0};
+    const std::vector<double> well_loc_2 = {800.0,800.0};
+    // const Point<2> well_loc_1(500.0, 500.0); //well location
+    // const Point<2> well_loc_2(800.0, 800.0); //well location
     const unsigned int n_cells_bulk = 10;
     const unsigned int n_cells_r = 10;
     const unsigned int n_cells_tet = 8;
@@ -293,6 +295,8 @@ namespace malla
 
     std::cout << "well_loc0 " << well_loc[0][0] << std::endl;
     std::cout << "well_loc0 " << well_loc[0][1] << std::endl;
+    std::cout << "well_loc0 " << well_loc[1][0] << std::endl;
+    std::cout << "well_loc0 " << well_loc[1][1] << std::endl;
 
     // //Bulk grid creation
     // Triangulation<2> bulk_tria;
