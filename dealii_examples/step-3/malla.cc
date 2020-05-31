@@ -295,32 +295,36 @@ namespace malla
     well_loc[0].push_back(well_loc_1);
     well_loc[1].push_back(well_loc_2);
 
-    // //Bulk grid creation
-    // Triangulation<2> bulk_tria;
-    // GridGenerator::subdivided_hyper_rectangle(bulk_tria,
-    //                                           bulk_cells,
-    //                                           bulk_P1,
-    //                                           bulk_P2);
+    //Bulk grid creation
+    Triangulation<2> bulk_tria;
+    GridGenerator::subdivided_hyper_rectangle(bulk_tria,
+                                              bulk_cells,
+                                              bulk_P1,
+                                              bulk_P2);
 
-    // //Cells removing
-    // std::set<Triangulation<2>::active_cell_iterator> cells_to_remove;
-    // for (const auto &cell : bulk_tria.active_cell_iterators())
-    //   {
-        //Colect the cells to remove, those which center is inside
-        //the square re_well_1 x re_well_1
+    //Cells removing
+    std::set<Triangulation<2>::active_cell_iterator> cells_to_remove;
+    for (const auto &cell : bulk_tria.active_cell_iterators())
+      {
+        // Colect the cells to remove, those which center is inside
+        // the square re_well_1 x re_well_1
         // if ((std::fabs((cell->center()[0] - well_loc_1[0])) < re_well_1) &&
         //      (std::fabs((cell->center()[1] - well_loc_1[1])) < re_well_1 ))
         //        cells_to_remove.insert(cell);
-      //   if ((std::fabs((cell->center()[0] - well_loc_1[0])) < re_well_1) &&
-      //       (std::fabs((cell->center()[1] - well_loc_1[1])) < re_well_1 ))
-      //         cells_to_remove.insert(cell);
-      // }
+        if ((std::fabs((cell->center()[0] - well_loc[0][0])) < re_well_1) &&
+            (std::fabs((cell->center()[1] - well_loc_1[0][1])) < re_well_1 ))
+              cells_to_remove.insert(cell);
+      }
 
-    // //Create the grid with removed cells
-    // Triangulation<2> tria_without_cylinder;
-    // GridGenerator::create_triangulation_with_removed_cells(
-    //   bulk_tria, cells_to_remove, tria_without_cylinder);
-    //
+    //Create the grid with removed cells
+    Triangulation<2> tria_without_cylinder;
+    GridGenerator::create_triangulation_with_removed_cells(
+      bulk_tria, cells_to_remove, tria_without_cylinder);
+
+    std::ofstream out("15_well_loc.vtk");
+    GridOut       grid_out;
+    grid_out.write_vtk(tria_without_cylinder, out);
+    std::cout << "Grid written to 15_well_loc.vtk" << std::endl;
     // // set up the cylinder triangulation. Note that this function sets the
     // // manifold ids of the interior boundary cells to 0
     // // (polar_manifold_id).
