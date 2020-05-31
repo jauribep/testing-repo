@@ -18,6 +18,7 @@
 #include <deal.II/numerics/data_out.h>
 #include <fstream>
 #include <iostream>
+#include <vector>
 
 #include "malla.h"
 
@@ -296,7 +297,7 @@ namespace malla
     for (int i = 0; i < well_loc.size(); i++) {
         for (int j = 0; j < well_loc[i].size(); j++)
             std::cout << well_loc[i][j] << " ";
-        std::cout << endl; 
+        std::cout << endl;
 
     // //Bulk grid creation
     // Triangulation<2> bulk_tria;
