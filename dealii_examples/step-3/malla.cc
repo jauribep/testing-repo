@@ -291,9 +291,7 @@ namespace malla
     well_loc[0].push_back(well_loc_1);
     well_loc[1].push_back(well_loc_2);
 
-    std::cout << "well_loc[0]"<< *well_loc << std::endl;
-    // std::cout << well_loc[0] << std::endl;
-    // std::cout << well_loc[1] << std::endl;
+    std::cout << well_loc[0] << std::endl;
 
     // //Bulk grid creation
     // Triangulation<2> bulk_tria;
@@ -301,18 +299,21 @@ namespace malla
     //                                           bulk_cells,
     //                                           bulk_P1,
     //                                           bulk_P2);
-    //
+
     // //Cells removing
     // std::set<Triangulation<2>::active_cell_iterator> cells_to_remove;
     // for (const auto &cell : bulk_tria.active_cell_iterators())
     //   {
-    //     //Colect the cells to remove, those which center is inside
-    //     //the square re_well_1 x re_well_1
-    //     if ((std::fabs((cell->center()[0] - well_loc_1[0])) < re_well_1) &&
-    //          (std::fabs((cell->center()[1] - well_loc_1[1])) < re_well_1 ))
-    //            cells_to_remove.insert(cell);
-    //   }
-    //
+        //Colect the cells to remove, those which center is inside
+        //the square re_well_1 x re_well_1
+        // if ((std::fabs((cell->center()[0] - well_loc_1[0])) < re_well_1) &&
+        //      (std::fabs((cell->center()[1] - well_loc_1[1])) < re_well_1 ))
+        //        cells_to_remove.insert(cell);
+      //   if ((std::fabs((cell->center()[0] - well_loc_1[0])) < re_well_1) &&
+      //       (std::fabs((cell->center()[1] - well_loc_1[1])) < re_well_1 ))
+      //         cells_to_remove.insert(cell);
+      // }
+
     // //Create the grid with removed cells
     // Triangulation<2> tria_without_cylinder;
     // GridGenerator::create_triangulation_with_removed_cells(
