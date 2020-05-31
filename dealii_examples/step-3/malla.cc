@@ -293,12 +293,10 @@ namespace malla
     well_loc[0].push_back(well_loc_1);
     well_loc[1].push_back(well_loc_2);
 
-    std::cout << "Hola" << std::endl;
-
-    std::cout << bulk_cells.at(0) << std::endl;
-    // std::cout << "well_loc0 " << well_loc[0][1] << std::endl;
-    // std::cout << "well_loc0 " << well_loc[1][0] << std::endl;
-    // std::cout << "well_loc0 " << well_loc[1][1] << std::endl;
+    for (int i = 0; i < well_loc.size(); i++) {
+        for (int j = 0; j < well_loc[i].size(); j++)
+            std::cout << well_loc[i][j] << " ";
+        std::cout << endl; 
 
     // //Bulk grid creation
     // Triangulation<2> bulk_tria;
