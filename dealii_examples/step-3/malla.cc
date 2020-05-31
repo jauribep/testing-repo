@@ -298,7 +298,7 @@ namespace malla
         for (int j = 0; j < well_loc[i].size(); j++)
             std::cout << well_loc[i][j] << " ";
         std::cout << endl;
-
+      }
     // //Bulk grid creation
     // Triangulation<2> bulk_tria;
     // GridGenerator::subdivided_hyper_rectangle(bulk_tria,
