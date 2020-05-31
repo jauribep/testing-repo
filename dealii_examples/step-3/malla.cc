@@ -269,8 +269,6 @@ namespace malla
     std::vector< Point<2> > well_loc[n_wells];
     const Point<2> well_loc_1(500.0, 500.0); //well location
     const Point<2> well_loc_2(800.0, 800.0); //well location
-    well_loc[0].push_back(well_loc_1)
-    well_loc[1].push_back(well_loc_2)
     const unsigned int n_cells_bulk = 10;
     const unsigned int n_cells_r = 10;
     const unsigned int n_cells_tet = 8;
@@ -289,6 +287,10 @@ namespace malla
     const unsigned int n_cells_per_shell = n_cells_tet;
     Tensor<1, 2> cylinder_triangulation_offset = well_loc_1;
     Triangulation<2> tria;
+
+
+    well_loc[0].push_back(well_loc_1);
+    well_loc[1].push_back(well_loc_2);
 
     std::cout << well_loc[0] << std::endl;
     std::cout << well_loc[1] << std::endl;
