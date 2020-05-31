@@ -288,11 +288,10 @@ namespace malla
     Tensor<1, 2> cylinder_triangulation_offset = well_loc_1;
     Triangulation<2> tria;
 
-
     well_loc[0].push_back(well_loc_1);
     well_loc[1].push_back(well_loc_2);
 
-    std::cout << "Grid written to 14_mi_merged_tria.vtk" << std::endl;
+    std::cout << "well_loc[0]"<< well_loc[0] << std::endl;
     // std::cout << well_loc[0] << std::endl;
     // std::cout << well_loc[1] << std::endl;
 
