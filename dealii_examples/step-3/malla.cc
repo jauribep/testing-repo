@@ -267,11 +267,12 @@ namespace malla
     const types::manifold_id tfi_manifold_id   = 1;
     const double l_bulk = 1000.0;
     const unsigned int n_wells = 2; //number of wells
-    std::vector< std::vector<double> > well_loc[n_wells];
-    const std::vector<double> well_loc_1 = {500.0,500.0};
-    const std::vector<double> well_loc_2 = {800.0,800.0};
-    // const Point<2> well_loc_1(500.0, 500.0); //well location
-    // const Point<2> well_loc_2(800.0, 800.0); //well location
+    //std::vector< std::vector<double> > well_loc[n_wells];
+    std::vector< Point<2> > well_loc[n_wells];
+    // const std::vector<double> well_loc_1 = {500.0,500.0};
+    // const std::vector<double> well_loc_2 = {800.0,800.0};
+    const Point<2> well_loc_1(500.0, 500.0); //well location
+    const Point<2> well_loc_2(800.0, 800.0); //well location
     const unsigned int n_cells_bulk = 10;
     const unsigned int n_cells_r = 10;
     const unsigned int n_cells_tet = 8;
@@ -294,11 +295,6 @@ namespace malla
     well_loc[0].push_back(well_loc_1);
     well_loc[1].push_back(well_loc_2);
 
-    for (int i = 0; i < well_loc.size(); i++) {
-        for (int j = 0; j < well_loc[i].size(); j++)
-            std::cout << well_loc[i][j] << " ";
-        std::cout << endl;
-      }
     // //Bulk grid creation
     // Triangulation<2> bulk_tria;
     // GridGenerator::subdivided_hyper_rectangle(bulk_tria,
