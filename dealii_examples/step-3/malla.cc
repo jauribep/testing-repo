@@ -291,7 +291,7 @@ namespace malla
     well_loc[0].push_back(well_loc_1);
     well_loc[1].push_back(well_loc_2);
 
-    std::cout << "well_loc[0]"<< well_loc[0] << std::endl;
+    std::cout << "well_loc[0]"<< well_loc << std::endl;
     // std::cout << well_loc[0] << std::endl;
     // std::cout << well_loc[1] << std::endl;
 
