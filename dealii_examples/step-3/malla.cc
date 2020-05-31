@@ -296,136 +296,134 @@ namespace malla
     // std::cout << well_loc[0] << std::endl;
     // std::cout << well_loc[1] << std::endl;
 
-    return 0;
-
-    //Bulk grid creation
-    Triangulation<2> bulk_tria;
-    GridGenerator::subdivided_hyper_rectangle(bulk_tria,
-                                              bulk_cells,
-                                              bulk_P1,
-                                              bulk_P2);
-
-    //Cells removing
-    std::set<Triangulation<2>::active_cell_iterator> cells_to_remove;
-    for (const auto &cell : bulk_tria.active_cell_iterators())
-      {
-        //Colect the cells to remove, those which center is inside
-        //the square re_well_1 x re_well_1
-        if ((std::fabs((cell->center()[0] - well_loc_1[0])) < re_well_1) &&
-             (std::fabs((cell->center()[1] - well_loc_1[1])) < re_well_1 ))
-               cells_to_remove.insert(cell);
-      }
-
-    //Create the grid with removed cells
-    Triangulation<2> tria_without_cylinder;
-    GridGenerator::create_triangulation_with_removed_cells(
-      bulk_tria, cells_to_remove, tria_without_cylinder);
-
-    // set up the cylinder triangulation. Note that this function sets the
-    // manifold ids of the interior boundary cells to 0
-    // (polar_manifold_id).
-    Triangulation<2> cylinder_tria;
-    GridGenerator::hyper_cube_with_cylindrical_hole(cylinder_tria,
-                                                    cyl_inner_radius,
-                                                    cyl_outer_radius);
-
-    // Assign interior manifold ids to be the TFI id.
-    for (const auto &cell : cylinder_tria.active_cell_iterators())
-     {
-       cell->set_manifold_id(tfi_manifold_id);
-       for (unsigned int face_n = 0; face_n < GeometryInfo<2>::faces_per_cell;
-            ++face_n)
-         if (!cell->face(face_n)->at_boundary())
-           cell->face(face_n)->set_manifold_id(tfi_manifold_id);
-     }
-    if (0.0 < shell_region_width)
-     {
-       Assert(0 < n_shells,
-              ExcMessage("If the shell region has positive width then "
-                         "there must be at least one shell."));
-       Triangulation<2> shell_tria;
-       GridGenerator::concentric_hyper_shells(shell_tria,
-                                              Point<2>(),
-                                              shell_inner_radius,
-                                              shell_outer_radius,
-                                              n_shells,
-                                              skewness,
-                                              n_cells_per_shell);
-
-       // Make the tolerance as large as possible since these cells can
-       // be quite close together
-       const double vertex_tolerance =
-         std::min(internal::minimal_vertex_distance(shell_tria),
-                  internal::minimal_vertex_distance(cylinder_tria)) *
-         0.5;
-
-       shell_tria.set_all_manifold_ids(polar_manifold_id);
-       Triangulation<2> temp;
-       GridGenerator::merge_triangulations(
-         shell_tria, cylinder_tria, temp, vertex_tolerance, true);
-       cylinder_tria = std::move(temp);
-     }
-
-    GridTools::shift(cylinder_triangulation_offset, cylinder_tria);
-
-    // Compute the tolerance again, since the shells may be very close to
-    // each-other:
-    const double vertex_tolerance =
-      std::min(internal::minimal_vertex_distance(tria_without_cylinder),
-               internal::minimal_vertex_distance(cylinder_tria)) /
-      10;
-
-    GridGenerator::merge_triangulations(
-      tria_without_cylinder, cylinder_tria, tria, vertex_tolerance, true);
-
-    // Ensure that all manifold ids on a polar cell really are set to the
-    // polar manifold id:
-    for (const auto &cell : tria.active_cell_iterators())
-      if (cell->manifold_id() == polar_manifold_id)
-        cell->set_all_manifold_ids(polar_manifold_id);
-
-    // Ensure that all other manifold ids (including the interior faces
-    // opposite the cylinder) are set to the flat manifold id:
-    for (const auto &cell : tria.active_cell_iterators())
-      if (cell->manifold_id() != polar_manifold_id &&
-          cell->manifold_id() != tfi_manifold_id)
-        cell->set_all_manifold_ids(numbers::flat_manifold_id);
-
-    // attach manifolds
-    PolarManifold<2> polar_manifold(well_loc_1);
-    tria.set_manifold(polar_manifold_id, polar_manifold);
-    TransfiniteInterpolationManifold<2> inner_manifold;
-    inner_manifold.initialize(tria);
-    tria.set_manifold(tfi_manifold_id, inner_manifold);
-
-    // if (colorize)
-    //   for (const auto &face : tria.active_face_iterators())
-    //     if (face->at_boundary())
-    //       {
-    //         const Point<2> center = face->center();
-    //         // left side
-    //         if (std::abs(center[0] - 0.0) < 1e-10)
-    //           face->set_boundary_id(0);
-    //         // right side
-    //         else if (std::abs(center[0] - 2.2) < 1e-10)
-    //           face->set_boundary_id(1);
-    //         // cylinder boundary
-    //         else if (face->manifold_id() == polar_manifold_id)
-    //           face->set_boundary_id(2);
-    //         // sides of channel
-    //         else
-    //           {
-    //             Assert(std::abs(center[1] - 0.00) < 1.0e-10 ||
-    //                      std::abs(center[1] - 0.41) < 1.0e-10,
-    //                    ExcInternalError());
-    //             face->set_boundary_id(3);
-    //           }
-    //       }
-
-    // std::ofstream out("14_mi_merged_tria.vtk");
-    // GridOut       grid_out;
-    // grid_out.write_vtk(tria, out);
-    // std::cout << "Grid written to 14_mi_merged_tria.vtk" << std::endl;
+    // //Bulk grid creation
+    // Triangulation<2> bulk_tria;
+    // GridGenerator::subdivided_hyper_rectangle(bulk_tria,
+    //                                           bulk_cells,
+    //                                           bulk_P1,
+    //                                           bulk_P2);
+    //
+    // //Cells removing
+    // std::set<Triangulation<2>::active_cell_iterator> cells_to_remove;
+    // for (const auto &cell : bulk_tria.active_cell_iterators())
+    //   {
+    //     //Colect the cells to remove, those which center is inside
+    //     //the square re_well_1 x re_well_1
+    //     if ((std::fabs((cell->center()[0] - well_loc_1[0])) < re_well_1) &&
+    //          (std::fabs((cell->center()[1] - well_loc_1[1])) < re_well_1 ))
+    //            cells_to_remove.insert(cell);
+    //   }
+    //
+    // //Create the grid with removed cells
+    // Triangulation<2> tria_without_cylinder;
+    // GridGenerator::create_triangulation_with_removed_cells(
+    //   bulk_tria, cells_to_remove, tria_without_cylinder);
+    //
+    // // set up the cylinder triangulation. Note that this function sets the
+    // // manifold ids of the interior boundary cells to 0
+    // // (polar_manifold_id).
+    // Triangulation<2> cylinder_tria;
+    // GridGenerator::hyper_cube_with_cylindrical_hole(cylinder_tria,
+    //                                                 cyl_inner_radius,
+    //                                                 cyl_outer_radius);
+    //
+    // // Assign interior manifold ids to be the TFI id.
+    // for (const auto &cell : cylinder_tria.active_cell_iterators())
+    //  {
+    //    cell->set_manifold_id(tfi_manifold_id);
+    //    for (unsigned int face_n = 0; face_n < GeometryInfo<2>::faces_per_cell;
+    //         ++face_n)
+    //      if (!cell->face(face_n)->at_boundary())
+    //        cell->face(face_n)->set_manifold_id(tfi_manifold_id);
+    //  }
+    // if (0.0 < shell_region_width)
+    //  {
+    //    Assert(0 < n_shells,
+    //           ExcMessage("If the shell region has positive width then "
+    //                      "there must be at least one shell."));
+    //    Triangulation<2> shell_tria;
+    //    GridGenerator::concentric_hyper_shells(shell_tria,
+    //                                           Point<2>(),
+    //                                           shell_inner_radius,
+    //                                           shell_outer_radius,
+    //                                           n_shells,
+    //                                           skewness,
+    //                                           n_cells_per_shell);
+    //
+    //    // Make the tolerance as large as possible since these cells can
+    //    // be quite close together
+    //    const double vertex_tolerance =
+    //      std::min(internal::minimal_vertex_distance(shell_tria),
+    //               internal::minimal_vertex_distance(cylinder_tria)) *
+    //      0.5;
+    //
+    //    shell_tria.set_all_manifold_ids(polar_manifold_id);
+    //    Triangulation<2> temp;
+    //    GridGenerator::merge_triangulations(
+    //      shell_tria, cylinder_tria, temp, vertex_tolerance, true);
+    //    cylinder_tria = std::move(temp);
+    //  }
+    //
+    // GridTools::shift(cylinder_triangulation_offset, cylinder_tria);
+    //
+    // // Compute the tolerance again, since the shells may be very close to
+    // // each-other:
+    // const double vertex_tolerance =
+    //   std::min(internal::minimal_vertex_distance(tria_without_cylinder),
+    //            internal::minimal_vertex_distance(cylinder_tria)) /
+    //   10;
+    //
+    // GridGenerator::merge_triangulations(
+    //   tria_without_cylinder, cylinder_tria, tria, vertex_tolerance, true);
+    //
+    // // Ensure that all manifold ids on a polar cell really are set to the
+    // // polar manifold id:
+    // for (const auto &cell : tria.active_cell_iterators())
+    //   if (cell->manifold_id() == polar_manifold_id)
+    //     cell->set_all_manifold_ids(polar_manifold_id);
+    //
+    // // Ensure that all other manifold ids (including the interior faces
+    // // opposite the cylinder) are set to the flat manifold id:
+    // for (const auto &cell : tria.active_cell_iterators())
+    //   if (cell->manifold_id() != polar_manifold_id &&
+    //       cell->manifold_id() != tfi_manifold_id)
+    //     cell->set_all_manifold_ids(numbers::flat_manifold_id);
+    //
+    // // attach manifolds
+    // PolarManifold<2> polar_manifold(well_loc_1);
+    // tria.set_manifold(polar_manifold_id, polar_manifold);
+    // TransfiniteInterpolationManifold<2> inner_manifold;
+    // inner_manifold.initialize(tria);
+    // tria.set_manifold(tfi_manifold_id, inner_manifold);
+    //
+    // // if (colorize)
+    // //   for (const auto &face : tria.active_face_iterators())
+    // //     if (face->at_boundary())
+    // //       {
+    // //         const Point<2> center = face->center();
+    // //         // left side
+    // //         if (std::abs(center[0] - 0.0) < 1e-10)
+    // //           face->set_boundary_id(0);
+    // //         // right side
+    // //         else if (std::abs(center[0] - 2.2) < 1e-10)
+    // //           face->set_boundary_id(1);
+    // //         // cylinder boundary
+    // //         else if (face->manifold_id() == polar_manifold_id)
+    // //           face->set_boundary_id(2);
+    // //         // sides of channel
+    // //         else
+    // //           {
+    // //             Assert(std::abs(center[1] - 0.00) < 1.0e-10 ||
+    // //                      std::abs(center[1] - 0.41) < 1.0e-10,
+    // //                    ExcInternalError());
+    // //             face->set_boundary_id(3);
+    // //           }
+    // //       }
+    //
+    // // std::ofstream out("14_mi_merged_tria.vtk");
+    // // GridOut       grid_out;
+    // // grid_out.write_vtk(tria, out);
+    // // std::cout << "Grid written to 14_mi_merged_tria.vtk" << std::endl;
 
   }
 }
