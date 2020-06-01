@@ -263,28 +263,29 @@ namespace malla
   void malla_personal2()
   {
     //Parameters
+    const std::vector<double> well_loc_1 = {500.0,500.0};
+    const std::vector<double> well_loc_2 = {800.0,800.0};
+    std::vector<std::vector<double>> well_loc;
     // const types::manifold_id polar_manifold_id = 0;
     // const types::manifold_id tfi_manifold_id   = 1;
-    // const double l_bulk = 1000.0;
+    const double l_bulk = 1000.0;
     // const unsigned int n_wells = 2; //number of wells
     // std::vector< std::vector<double> > well_loc[n_wells-1];
     //std::vector< Point<2> > well_loc[n_wells-1];
-    const std::vector<double> well_loc_1 = {500.0,500.0};
-    const std::vector<double> well_loc_2 = {800.0,800.0};
+
     // std::vector<std::vector<double> > well_loc{ { 1.5, 2.0, 3.0 },
     //                                             { 4.0, 5.0, 6.0 },
     //                                             { 7.0, 8.0, 9.0 } };
-    std::vector<std::vector<double> > well_loc;
     // const Point<2> well_loc_1(500.0, 500.0); //well location
     // const Point<2> well_loc_2(800.0, 800.0); //well location
-    // const unsigned int n_cells_bulk = 10;
+    const unsigned int n_cells_bulk = 10;
     // const unsigned int n_cells_r = 10;
     // const unsigned int n_cells_tet = 8;
     // const double rw_well_1 = 0.35; // well radius
     // const double re_well_1 = 100.0; // aprox drainage radius
-    // const std::vector<unsigned int> bulk_cells = {n_cells_bulk, n_cells_bulk};
-    // const Point<2> bulk_P1(0.0, 0.0);
-    // const Point<2> bulk_P2(l_bulk, l_bulk);
+    const std::vector<unsigned int> bulk_cells = {n_cells_bulk, n_cells_bulk};
+    const Point<2> bulk_P1(0.0, 0.0);
+    const Point<2> bulk_P2(l_bulk, l_bulk);
     // const double shell_region_width = re_well_1 * 0.8;
     // const double cyl_inner_radius = rw_well_1 + shell_region_width;
     // const double cyl_outer_radius = re_well_1;
@@ -299,45 +300,39 @@ namespace malla
     well_loc.push_back(well_loc_1);
     well_loc.push_back(well_loc_2);
 
-    // Displaying the 2D vector
-    std::cout << well_loc[0][0] << std::endl;
-    // for (unsigned int i = 0; i < well_loc.size(); i++)
-    //  {
-    //     for (unsigned int j = 0; j < well_loc[i].size(); j++)
-    //         std::cout << well_loc[i][j] << " ";
-    //     std::cout << std::endl;
-    //  }
+    //Bulk grid creation
+    Triangulation<2> bulk_tria;
+    GridGenerator::subdivided_hyper_rectangle(bulk_tria,
+                                              bulk_cells,
+                                              bulk_P1,
+                                              bulk_P2);
 
-    // //Bulk grid creation
-    // Triangulation<2> bulk_tria;
-    // GridGenerator::subdivided_hyper_rectangle(bulk_tria,
-    //                                           bulk_cells,
-    //                                           bulk_P1,
-    //                                           bulk_P2);
+    //Cells removing
+    std::set<Triangulation<2>::active_cell_iterator> cells_to_remove;
+    Point<2> well_point
+    well_point = well_loc[0]
+    for (const auto &cell : bulk_tria.active_cell_iterators())
+      {
+        // Colect the cells to remove, those which center is inside
+        // the square re_well_1 x re_well_1
+        // if ((std::fabs((cell->center()[0] - well_loc_1[0])) < re_well_1) &&
+        //      (std::fabs((cell->center()[1] - well_loc_1[1])) < re_well_1 ))
+        //        cells_to_remove.insert(cell);
+        if ((std::fabs((cell->center()[0] - well_point[0])) < re_well_1) &&
+            (std::fabs((cell->center()[1] - well_point[1])) < re_well_1 ))
+              cells_to_remove.insert(cell);
+      }
 
-    // //Cells removing
-    // std::set<Triangulation<2>::active_cell_iterator> cells_to_remove;
-    // for (const auto &cell : bulk_tria.active_cell_iterators())
-    //   {
-    //     // Colect the cells to remove, those which center is inside
-    //     // the square re_well_1 x re_well_1
-    //     // if ((std::fabs((cell->center()[0] - well_loc_1[0])) < re_well_1) &&
-    //     //      (std::fabs((cell->center()[1] - well_loc_1[1])) < re_well_1 ))
-    //     //        cells_to_remove.insert(cell);
-    //     if ((std::fabs((cell->center()[0] - well_loc[0][0])) < re_well_1) &&
-    //         (std::fabs((cell->center()[1] - well_loc[0][1])) < re_well_1 ))
-    //           cells_to_remove.insert(cell);
-    //   }
+    //Create the grid with removed cells
+    Triangulation<2> tria_without_cylinder;
+    GridGenerator::create_triangulation_with_removed_cells(
+      bulk_tria, cells_to_remove, tria_without_cylinder);
 
-    // //Create the grid with removed cells
-    // Triangulation<2> tria_without_cylinder;
-    // GridGenerator::create_triangulation_with_removed_cells(
-    //   bulk_tria, cells_to_remove, tria_without_cylinder);
-    //
-    // std::ofstream out("15_well_loc.vtk");
-    // GridOut       grid_out;
-    // grid_out.write_vtk(tria_without_cylinder, out);
-    // std::cout << "Grid written to 15_well_loc.vtk" << std::endl;
+    std::ofstream out("15_well_loc.vtk");
+    GridOut       grid_out;
+    grid_out.write_vtk(tria_without_cylinder, out);
+    std::cout << "Grid written to 15_well_loc.vtk" << std::endl;
+
     // // set up the cylinder triangulation. Note that this function sets the
     // // manifold ids of the interior boundary cells to 0
     // // (polar_manifold_id).
