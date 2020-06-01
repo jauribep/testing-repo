@@ -299,11 +299,11 @@ namespace malla
     // well_loc[1].push_back(well_loc_2);
 
     // Displaying the 2D vector
-    for (int i = 0; i < well_loc.size(); i++)
+    for (unsigned int i = 0; i < well_loc.size(); i++)
      {
-        for (int j = 0; j < well_loc[i].size(); j++)
+        for (unsigned int j = 0; j < well_loc[i].size(); j++)
             std::cout << well_loc[i][j] << " ";
-        std::cout << endl;
+        std::cout << std::endl;
      }
 
     // //Bulk grid creation
