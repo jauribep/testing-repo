@@ -266,11 +266,14 @@ namespace malla
     // const types::manifold_id polar_manifold_id = 0;
     // const types::manifold_id tfi_manifold_id   = 1;
     // const double l_bulk = 1000.0;
-    const unsigned int n_wells = 2; //number of wells
-    std::vector< std::vector<double> > well_loc[n_wells-1];
+    // const unsigned int n_wells = 2; //number of wells
+    // std::vector< std::vector<double> > well_loc[n_wells-1];
     //std::vector< Point<2> > well_loc[n_wells-1];
-    const std::vector<double> well_loc_1 = {500.0,500.0};
-    const std::vector<double> well_loc_2 = {800.0,800.0};
+    // const std::vector<double> well_loc_1 = {500.0,500.0};
+    // const std::vector<double> well_loc_2 = {800.0,800.0};
+    std::vector<std::vector<int> > well_loc{ { 1, 2, 3 },
+                                             { 4, 5, 6 },
+                                             { 7, 8, 9 } };
     // const Point<2> well_loc_1(500.0, 500.0); //well location
     // const Point<2> well_loc_2(800.0, 800.0); //well location
     // const unsigned int n_cells_bulk = 10;
@@ -292,8 +295,8 @@ namespace malla
     // //Tensor<1, 2> cylinder_triangulation_offset = well_loc_1;
     // Triangulation<2> tria;
 
-    well_loc[0].push_back(well_loc_1);
-    well_loc[1].push_back(well_loc_2);
+    // well_loc[0].push_back(well_loc_1);
+    // well_loc[1].push_back(well_loc_2);
 
     // Displaying the 2D vector
     for (int i = 0; i < well_loc.size(); i++)
