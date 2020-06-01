@@ -271,7 +271,7 @@ namespace malla
     //std::vector< Point<2> > well_loc[n_wells-1];
     // const std::vector<double> well_loc_1 = {500.0,500.0};
     // const std::vector<double> well_loc_2 = {800.0,800.0};
-    std::vector<std::vector<double> > well_loc{ { 1.0, 2.0, 3.0 },
+    std::vector<std::vector<double> > well_loc{ { 1.5, 2.0, 3.0 },
                                                 { 4.0, 5.0, 6.0 },
                                                 { 7.0, 8.0, 9.0 } };
     // const Point<2> well_loc_1(500.0, 500.0); //well location
