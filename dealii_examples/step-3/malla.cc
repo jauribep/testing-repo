@@ -309,8 +309,7 @@ namespace malla
 
     //Cells removing
     std::set<Triangulation<2>::active_cell_iterator> cells_to_remove;
-    Point<2> well_point;
-    well_point = well_loc[0];
+    Point<2> well_point = well_loc[0];
     for (const auto &cell : bulk_tria.active_cell_iterators())
       {
         // Colect the cells to remove, those which center is inside
