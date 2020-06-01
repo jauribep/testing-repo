@@ -295,7 +295,7 @@ namespace malla
     well_loc[0].push_back(well_loc_1);
     well_loc[1].push_back(well_loc_2);
 
-    std::out << well_loc[0][1] << std::endl
+    std::cout << well_loc[0][1] << std::endl
 
     // //Bulk grid creation
     // Triangulation<2> bulk_tria;
