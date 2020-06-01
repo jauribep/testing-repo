@@ -299,12 +299,13 @@ namespace malla
     // well_loc[1].push_back(well_loc_2);
 
     // Displaying the 2D vector
-    for (unsigned int i = 0; i < well_loc.size(); i++)
-     {
-        for (unsigned int j = 0; j < well_loc[i].size(); j++)
-            std::cout << well_loc[i][j] << " ";
-        std::cout << std::endl;
-     }
+    std::cout << well_loc[0][0] << std::endl
+    // for (unsigned int i = 0; i < well_loc.size(); i++)
+    //  {
+    //     for (unsigned int j = 0; j < well_loc[i].size(); j++)
+    //         std::cout << well_loc[i][j] << " ";
+    //     std::cout << std::endl;
+    //  }
 
     // //Bulk grid creation
     // Triangulation<2> bulk_tria;
