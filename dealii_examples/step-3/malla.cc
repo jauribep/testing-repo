@@ -269,7 +269,7 @@ namespace malla
     // const types::manifold_id polar_manifold_id = 0;
     // const types::manifold_id tfi_manifold_id   = 1;
     const double l_bulk = 1000.0;
-    // const unsigned int n_wells = 2; //number of wells
+    const unsigned int n_wells = 2; //number of wells
     // std::vector< std::vector<double> > well_loc[n_wells-1];
     //std::vector< Point<2> > well_loc[n_wells-1];
 
@@ -309,17 +309,24 @@ namespace malla
 
     //Cells removing
     std::set<Triangulation<2>::active_cell_iterator> cells_to_remove;
-    Point<2> well_point = well_loc[0];
-    for (const auto &cell : bulk_tria.active_cell_iterators())
+
+    Point<2> well_point
+    for(unsigned int i = 0; i = 0; i++)
       {
-        // Colect the cells to remove, those which center is inside
-        // the square re_well_1 x re_well_1
-        // if ((std::fabs((cell->center()[0] - well_loc_1[0])) < re_well_1) &&
-        //      (std::fabs((cell->center()[1] - well_loc_1[1])) < re_well_1 ))
-        //        cells_to_remove.insert(cell);
-        if ((std::fabs((cell->center()[0] - well_point[0])) < re_well_1) &&
-            (std::fabs((cell->center()[1] - well_point[1])) < re_well_1 ))
-              cells_to_remove.insert(cell);
+        well_point = well_loc[i];
+
+        for (const auto &cell : bulk_tria.active_cell_iterators())
+          {
+            // Colect the cells to remove, those which center is inside
+            // the square re_well_1 x re_well_1
+            // if ((std::fabs((cell->center()[0] - well_loc_1[0])) < re_well_1) &&
+            //      (std::fabs((cell->center()[1] - well_loc_1[1])) < re_well_1 ))
+            //        cells_to_remove.insert(cell);
+            if ((std::fabs((cell->center()[0] - well_point[0])) < re_well_1) &&
+                (std::fabs((cell->center()[1] - well_point[1])) < re_well_1 ))
+                  cells_to_remove.insert(cell);
+          }
+
       }
 
     //Create the grid with removed cells
