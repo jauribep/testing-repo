@@ -263,10 +263,10 @@ namespace malla
   void malla_personal2()
   {
     //Parameters
-    const std::vector<double> well_loc_1 = {500.0,500.0};
-    const std::vector<double> well_loc_2 = {800.0,800.0};
+    // const std::vector<double> well_loc_1 = {500.0,500.0};
+    // const std::vector<double> well_loc_2 = {800.0,800.0};
     //std::vector<std::vector<double>> well_loc;
-    std::vector<Point<2> *> well_loc;
+    std::vector<Point<2>> well_loc;
     // const types::manifold_id polar_manifold_id = 0;
     // const types::manifold_id tfi_manifold_id   = 1;
     const double l_bulk = 1000.0;
@@ -298,8 +298,8 @@ namespace malla
     // //Tensor<1, 2> cylinder_triangulation_offset = well_loc_1;
     // Triangulation<2> tria;
 
-    well_loc.push_back(well_loc_1);
-    well_loc.push_back(well_loc_2);
+    well_loc.push_back(500.0, 500.0);
+    well_loc.push_back(800.0, 800.0);
 
     //Bulk grid creation
     Triangulation<2> bulk_tria;
