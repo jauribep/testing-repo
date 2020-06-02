@@ -18,7 +18,6 @@
 #include <deal.II/numerics/data_out.h>
 #include <fstream>
 #include <iostream>
-#include <vector>
 
 #include "malla.h"
 
@@ -277,8 +276,8 @@ namespace malla
     // std::vector<std::vector<double> > well_loc{ { 1.5, 2.0, 3.0 },
     //                                             { 4.0, 5.0, 6.0 },
     //                                             { 7.0, 8.0, 9.0 } };
-    // const Point<2> well_loc_1(500.0, 500.0); //well location
-    // const Point<2> well_loc_2(800.0, 800.0); //well location
+    const Point<2> well_loc_1(500.0, 500.0); //well location
+    const Point<2> well_loc_2(800.0, 800.0); //well location
     const unsigned int n_cells_bulk = 10;
     // const unsigned int n_cells_r = 10;
     // const unsigned int n_cells_tet = 8;
@@ -298,8 +297,8 @@ namespace malla
     // //Tensor<1, 2> cylinder_triangulation_offset = well_loc_1;
     // Triangulation<2> tria;
 
-    well_loc.push_back(500.0, 500.0);
-    well_loc.push_back(800.0, 800.0);
+    well_loc.push_back(well_loc_1);
+    well_loc.push_back(well_loc_2);
 
     //Bulk grid creation
     Triangulation<2> bulk_tria;
