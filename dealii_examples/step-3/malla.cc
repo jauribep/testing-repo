@@ -262,10 +262,17 @@ namespace malla
   void malla_personal2()
   {
     //Parameters
-    const unsigned int n_wells = 4; //number of wells
+    const unsigned int n_wells = 9; //number of wells
     const double l_bulk = 1000.0;
-    const Point<2> well_loc_1(500.0, 500.0); //well location
-    const Point<2> well_loc_2(800.0, 800.0); //well location
+    const Point<2> well_loc_1(800.0, 800.0); //well location
+    const Point<2> well_loc_2(500.0, 800.0); //well location
+    const Point<2> well_loc_3(200.0, 800.0); //well location
+    const Point<2> well_loc_4(800.0, 500.0); //well location
+    const Point<2> well_loc_5(500.0, 500.0); //well location
+    const Point<2> well_loc_6(200.0, 500.0); //well location
+    const Point<2> well_loc_7(800.0, 200.0); //well location
+    const Point<2> well_loc_8(400.0, 200.0); //well location
+    const Point<2> well_loc_9(200.0, 200.0); //well location
     const unsigned int n_cells_bulk = 10;
     // const unsigned int n_cells_r = 10;
     // const unsigned int n_cells_tet = 8;
@@ -290,6 +297,13 @@ namespace malla
 
     well_loc.push_back(well_loc_1);
     well_loc.push_back(well_loc_2);
+    well_loc.push_back(well_loc_3);
+    well_loc.push_back(well_loc_4);
+    well_loc.push_back(well_loc_5);
+    well_loc.push_back(well_loc_6);
+    well_loc.push_back(well_loc_7);
+    well_loc.push_back(well_loc_8);
+    well_loc.push_back(well_loc_9);
 
     Assert( well_loc.size() == n_wells,
       ExcMessage("number of well not matching number of well_loc") );
