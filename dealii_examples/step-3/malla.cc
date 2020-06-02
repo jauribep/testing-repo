@@ -262,7 +262,7 @@ namespace malla
   void malla_personal2()
   {
     //Parameters
-    const unsigned int n_wells = 2; //number of wells
+    const unsigned int n_wells = 4; //number of wells
     const double l_bulk = 1000.0;
     const Point<2> well_loc_1(500.0, 500.0); //well location
     const Point<2> well_loc_2(800.0, 800.0); //well location
