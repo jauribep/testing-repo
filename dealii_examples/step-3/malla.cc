@@ -271,7 +271,7 @@ namespace malla
     const Point<2> well_loc_5(500.0, 500.0); //well location
     const Point<2> well_loc_6(200.0, 500.0); //well location
     const Point<2> well_loc_7(800.0, 200.0); //well location
-    const Point<2> well_loc_8(400.0, 200.0); //well location
+    const Point<2> well_loc_8(500.0, 200.0); //well location
     const Point<2> well_loc_9(200.0, 200.0); //well location
     const unsigned int n_cells_bulk = 10;
     // const unsigned int n_cells_r = 10;
