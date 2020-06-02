@@ -282,7 +282,7 @@ namespace malla
     // const unsigned int n_cells_r = 10;
     // const unsigned int n_cells_tet = 8;
     // const double rw_well_1 = 0.35; // well radius
-    // const double re_well_1 = 100.0; // aprox drainage radius
+    const double re_well_1 = 100.0; // aprox drainage radius
     const std::vector<unsigned int> bulk_cells = {n_cells_bulk, n_cells_bulk};
     const Point<2> bulk_P1(0.0, 0.0);
     const Point<2> bulk_P2(l_bulk, l_bulk);
