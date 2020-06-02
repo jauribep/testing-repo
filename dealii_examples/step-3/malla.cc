@@ -311,7 +311,7 @@ namespace malla
     std::set<Triangulation<2>::active_cell_iterator> cells_to_remove;
 
     Point<2> well_point;
-    for(unsigned int i = 0; i < n_wells-1; i++)
+    for(unsigned int i = 0; i < n_wells; i++)
       {
         well_point = well_loc[i];
         for (const auto &cell : bulk_tria.active_cell_iterators())
