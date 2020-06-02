@@ -310,11 +310,10 @@ namespace malla
     //Cells removing
     std::set<Triangulation<2>::active_cell_iterator> cells_to_remove;
 
-    Point<2> well_point
+    Point<2> well_point;
     for(unsigned int i = 0; i = 0; i++)
       {
         well_point = well_loc[i];
-
         for (const auto &cell : bulk_tria.active_cell_iterators())
           {
             // Colect the cells to remove, those which center is inside
@@ -323,7 +322,6 @@ namespace malla
                 (std::fabs((cell->center()[1] - well_point[1])) < re_well_1 ))
                   cells_to_remove.insert(cell);
           }
-
       }
 
     //Create the grid with removed cells
