@@ -291,7 +291,8 @@ namespace malla
     well_loc.push_back(well_loc_1);
     well_loc.push_back(well_loc_2);
 
-    Assert( well_loc.size() == n_wells );
+    Assert( well_loc.size() == n_wells,
+      ExcMessage("number of well not matching number of well_loc") );
 
     //Bulk grid creation
     Triangulation<2> bulk_tria;
