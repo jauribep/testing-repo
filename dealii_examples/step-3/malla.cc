@@ -263,8 +263,8 @@ namespace malla
   void malla_personal2()
   {
     //Parameters
-    //const std::vector<double> well_loc_1 = {500.0,500.0};
-    //const std::vector<double> well_loc_2 = {800.0,800.0};
+    const std::vector<double> well_loc_1 = {500.0,500.0};
+    const std::vector<double> well_loc_2 = {800.0,800.0};
     //std::vector<std::vector<double>> well_loc;
     std::vector<Point<2> *> well_loc;
     // const types::manifold_id polar_manifold_id = 0;
@@ -277,8 +277,8 @@ namespace malla
     // std::vector<std::vector<double> > well_loc{ { 1.5, 2.0, 3.0 },
     //                                             { 4.0, 5.0, 6.0 },
     //                                             { 7.0, 8.0, 9.0 } };
-    Point<2> well_loc_1(500.0, 500.0); //well location
-    Point<2> well_loc_2(800.0, 800.0); //well location
+    // const Point<2> well_loc_1(500.0, 500.0); //well location
+    // const Point<2> well_loc_2(800.0, 800.0); //well location
     const unsigned int n_cells_bulk = 10;
     // const unsigned int n_cells_r = 10;
     // const unsigned int n_cells_tet = 8;
