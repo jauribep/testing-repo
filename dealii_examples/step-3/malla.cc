@@ -262,20 +262,8 @@ namespace malla
   void malla_personal2()
   {
     //Parameters
-    // const std::vector<double> well_loc_1 = {500.0,500.0};
-    // const std::vector<double> well_loc_2 = {800.0,800.0};
-    //std::vector<std::vector<double>> well_loc;
-    std::vector<Point<2>> well_loc;
-    // const types::manifold_id polar_manifold_id = 0;
-    // const types::manifold_id tfi_manifold_id   = 1;
-    const double l_bulk = 1000.0;
     const unsigned int n_wells = 2; //number of wells
-    // std::vector< std::vector<double> > well_loc[n_wells-1];
-    //std::vector< Point<2> > well_loc[n_wells-1];
-
-    // std::vector<std::vector<double> > well_loc{ { 1.5, 2.0, 3.0 },
-    //                                             { 4.0, 5.0, 6.0 },
-    //                                             { 7.0, 8.0, 9.0 } };
+    const double l_bulk = 1000.0;
     const Point<2> well_loc_1(500.0, 500.0); //well location
     const Point<2> well_loc_2(800.0, 800.0); //well location
     const unsigned int n_cells_bulk = 10;
@@ -283,6 +271,7 @@ namespace malla
     // const unsigned int n_cells_tet = 8;
     // const double rw_well_1 = 0.35; // well radius
     const double re_well_1 = 100.0; // aprox drainage radius
+    std::vector<Point<2>> well_loc;
     const std::vector<unsigned int> bulk_cells = {n_cells_bulk, n_cells_bulk};
     const Point<2> bulk_P1(0.0, 0.0);
     const Point<2> bulk_P2(l_bulk, l_bulk);
@@ -296,9 +285,13 @@ namespace malla
     // const unsigned int n_cells_per_shell = n_cells_tet;
     // //Tensor<1, 2> cylinder_triangulation_offset = well_loc_1;
     // Triangulation<2> tria;
+    // const types::manifold_id polar_manifold_id = 0;
+    // const types::manifold_id tfi_manifold_id   = 1;
 
     well_loc.push_back(well_loc_1);
     well_loc.push_back(well_loc_2);
+
+    Assert( well_loc.size() == n_wells );
 
     //Bulk grid creation
     Triangulation<2> bulk_tria;
