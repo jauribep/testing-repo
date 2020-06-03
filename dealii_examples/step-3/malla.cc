@@ -282,14 +282,14 @@ namespace malla
     const std::vector<unsigned int> bulk_cells = {n_cells_bulk, n_cells_bulk};
     const Point<2> bulk_P1(0.0, 0.0);
     const Point<2> bulk_P2(l_bulk, l_bulk);
-    // const double shell_region_width = re_well_1 * 0.8;
-    // const double cyl_inner_radius = rw_well_1 + shell_region_width;
-    // const double cyl_outer_radius = re_well_1;
-    // const double shell_inner_radius = rw_well_1;
-    // const double shell_outer_radius = rw_well_1 + shell_region_width;
-    // const unsigned int n_shells = n_cells_r;
-    // const double skewness = 2.0;
-    // const unsigned int n_cells_per_shell = n_cells_tet;
+    const double shell_region_width = re_well_1 * 0.8;
+    const double cyl_inner_radius = rw_well_1 + shell_region_width;
+    const double cyl_outer_radius = re_well_1;
+    const double shell_inner_radius = rw_well_1;
+    const double shell_outer_radius = rw_well_1 + shell_region_width;
+    const unsigned int n_shells = n_cells_r;
+    const double skewness = 2.0;
+    const unsigned int n_cells_per_shell = n_cells_tet;
     // //Tensor<1, 2> cylinder_triangulation_offset = well_loc_1;
     // Triangulation<2> tria;
     // const types::manifold_id polar_manifold_id = 0;
@@ -337,58 +337,67 @@ namespace malla
     GridGenerator::create_triangulation_with_removed_cells(
       bulk_tria, cells_to_remove, tria_without_cylinder);
 
-    std::ofstream out("15_well_loc.vtk");
-    GridOut       grid_out;
-    grid_out.write_vtk(tria_without_cylinder, out);
-    std::cout << "Grid written to 15_well_loc.vtk" << std::endl;
-
-    // // set up the cylinder triangulation. Note that this function sets the
-    // // manifold ids of the interior boundary cells to 0
-    // // (polar_manifold_id).
+    // set up the cylinder triangulation. Note that this function sets the
+    // manifold ids of the interior boundary cells to 0
+    // (polar_manifold_id).
     // Triangulation<2> cylinder_tria;
-    // GridGenerator::hyper_cube_with_cylindrical_hole(cylinder_tria,
-    //                                                 cyl_inner_radius,
-    //                                                 cyl_outer_radius);
-    //
-    // // Assign interior manifold ids to be the TFI id.
-    // for (const auto &cell : cylinder_tria.active_cell_iterators())
-    //  {
-    //    cell->set_manifold_id(tfi_manifold_id);
-    //    for (unsigned int face_n = 0; face_n < GeometryInfo<2>::faces_per_cell;
-    //         ++face_n)
-    //      if (!cell->face(face_n)->at_boundary())
-    //        cell->face(face_n)->set_manifold_id(tfi_manifold_id);
-    //  }
-    // if (0.0 < shell_region_width)
-    //  {
-    //    Assert(0 < n_shells,
-    //           ExcMessage("If the shell region has positive width then "
-    //                      "there must be at least one shell."));
-    //    Triangulation<2> shell_tria;
-    //    GridGenerator::concentric_hyper_shells(shell_tria,
-    //                                           Point<2>(),
-    //                                           shell_inner_radius,
-    //                                           shell_outer_radius,
-    //                                           n_shells,
-    //                                           skewness,
-    //                                           n_cells_per_shell);
-    //
-    //    // Make the tolerance as large as possible since these cells can
-    //    // be quite close together
-    //    const double vertex_tolerance =
-    //      std::min(internal::minimal_vertex_distance(shell_tria),
-    //               internal::minimal_vertex_distance(cylinder_tria)) *
-    //      0.5;
-    //
-    //    shell_tria.set_all_manifold_ids(polar_manifold_id);
-    //    Triangulation<2> temp;
-    //    GridGenerator::merge_triangulations(
-    //      shell_tria, cylinder_tria, temp, vertex_tolerance, true);
-    //    cylinder_tria = std::move(temp);
-    //  }
-    //
+    GridGenerator::hyper_cube_with_cylindrical_hole(cylinder_tria,
+                                                    cyl_inner_radius,
+                                                    cyl_outer_radius);
+
+    //Assign interior manifold ids to be the TFI id.
+    for (const auto &cell : cylinder_tria.active_cell_iterators())
+     {
+       cell->set_manifold_id(tfi_manifold_id);
+       for (unsigned int face_n = 0; face_n < GeometryInfo<2>::faces_per_cell;
+            ++face_n)
+         if (!cell->face(face_n)->at_boundary())
+           cell->face(face_n)->set_manifold_id(tfi_manifold_id);
+     }
+    if (0.0 < shell_region_width)
+     {
+       Assert(0 < n_shells,
+              ExcMessage("If the shell region has positive width then "
+                         "there must be at least one shell."));
+       Triangulation<2> shell_tria;
+       GridGenerator::concentric_hyper_shells(shell_tria,
+                                              Point<2>(),
+                                              shell_inner_radius,
+                                              shell_outer_radius,
+                                              n_shells,
+                                              skewness,
+                                              n_cells_per_shell);
+
+       // Make the tolerance as large as possible since these cells can
+       // be quite close together
+       const double vertex_tolerance =
+         std::min(internal::minimal_vertex_distance(shell_tria),
+                  internal::minimal_vertex_distance(cylinder_tria)) *
+         0.5;
+
+       shell_tria.set_all_manifold_ids(polar_manifold_id);
+       Triangulation<2> temp;
+       GridGenerator::merge_triangulations(
+         shell_tria, cylinder_tria, temp, vertex_tolerance, true);
+       cylinder_tria = std::move(temp);
+
+       //define a vector of triangulations
+       std::vector<Triangulation<2>> tria_vec;
+       for(unsigned int i = 0; i < n_wells; i++)
+          {
+            tria_vec.push_back(cylinder_tria);
+          }
+
+        // std::ofstream out("15_well_loc.vtk");
+        // GridOut       grid_out;
+        // grid_out.write_vtk(tria_without_cylinder, out);
+        // std::cout << "Grid written to 15_well_loc.vtk" << std::endl;
+
+     }
+
     // GridTools::shift(cylinder_triangulation_offset, cylinder_tria);
-    //
+
+
     // // Compute the tolerance again, since the shells may be very close to
     // // each-other:
     // const double vertex_tolerance =
