@@ -292,8 +292,8 @@ namespace malla
     const unsigned int n_cells_per_shell = n_cells_tet;
     // //Tensor<1, 2> cylinder_triangulation_offset = well_loc_1;
     // Triangulation<2> tria;
-    // const types::manifold_id polar_manifold_id = 0;
-    // const types::manifold_id tfi_manifold_id   = 1;
+    const types::manifold_id polar_manifold_id = 0;
+    const types::manifold_id tfi_manifold_id   = 1;
 
     well_loc.push_back(well_loc_1);
     well_loc.push_back(well_loc_2);
@@ -340,7 +340,7 @@ namespace malla
     // set up the cylinder triangulation. Note that this function sets the
     // manifold ids of the interior boundary cells to 0
     // (polar_manifold_id).
-    // Triangulation<2> cylinder_tria;
+    Triangulation<2> cylinder_tria;
     GridGenerator::hyper_cube_with_cylindrical_hole(cylinder_tria,
                                                     cyl_inner_radius,
                                                     cyl_outer_radius);
