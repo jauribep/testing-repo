@@ -274,9 +274,9 @@ namespace malla
     const Point<2> well_loc_8(500.0, 200.0); //well location
     const Point<2> well_loc_9(200.0, 200.0); //well location
     const unsigned int n_cells_bulk = 10;
-    // const unsigned int n_cells_r = 10;
-    // const unsigned int n_cells_tet = 8;
-    // const double rw_well_1 = 0.35; // well radius
+    const unsigned int n_cells_r = 10;
+    const unsigned int n_cells_tet = 8;
+    const double rw_well_1 = 0.35; // well radius
     const double re_well_1 = 100.0; // aprox drainage radius
     std::vector<Point<2>> well_loc;
     const std::vector<unsigned int> bulk_cells = {n_cells_bulk, n_cells_bulk};
