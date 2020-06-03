@@ -383,10 +383,10 @@ namespace malla
 
        //define a vector of triangulations
        std::vector<Triangulation<2>> tria_vec;
-       for(unsigned int i = 0; i < n_wells; i++)
-          {
-            tria_vec.push_back(cylinder_tria);
-          }
+       // for(unsigned int i = 0; i < n_wells; i++)
+       //    {
+       //      tria_vec.push_back(cylinder_tria);
+       //    }
 
         // std::ofstream out("15_well_loc.vtk");
         // GridOut       grid_out;
