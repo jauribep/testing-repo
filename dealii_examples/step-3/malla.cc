@@ -378,19 +378,25 @@ namespace malla
 
      }
 
-     // Compute the tolerance again, since the shells may be very close to
-     // each-other:
-     const double vertex_tolerance =
-       std::min(internal::minimal_vertex_distance(tria_without_cylinder),
-                internal::minimal_vertex_distance(cylinder_tria)) /
-       10;
+    // Compute the tolerance again, since the shells may be very close to
+    // each-other:
+    const double vertex_tolerance =
+     std::min(internal::minimal_vertex_distance(tria_without_cylinder),
+              internal::minimal_vertex_distance(cylinder_tria)) /
+     10;
 
+    //move the cylinder_tria to the first well
     cylinder_triangulation_offset = well_loc[0];
     GridTools::shift(cylinder_triangulation_offset, cylinder_tria);
 
     GridGenerator::merge_triangulations(
      tria_without_cylinder, cylinder_tria, tria, vertex_tolerance, true);
 
+    //bring the cylinder_tria origin
+    cylinder_triangulation_offset = Point<2>();
+    GridTools::shift(cylinder_triangulation_offset, cylinder_tria);
+
+    //continue mergin the other wells
     Triangulation<2> temp;
     for(unsigned int i = 1; i < 2; i++)
       {
@@ -399,6 +405,7 @@ namespace malla
 
         temp = std::move(tria);
         tria.clear();
+
         const double vertex_tolerance =
           std::min(internal::minimal_vertex_distance(temp),
                    internal::minimal_vertex_distance(cylinder_tria)) /
@@ -406,6 +413,12 @@ namespace malla
 
         GridGenerator::merge_triangulations(
           temp, cylinder_tria, tria, vertex_tolerance, true);
+
+        temp.clean();
+
+        //bring the cylinder_tria to the origin
+        cylinder_triangulation_offset = Point<2>();
+        GridTools::shift(cylinder_triangulation_offset, cylinder_tria);
       }
 
     std::ofstream out("17_well_loc2.vtk");
