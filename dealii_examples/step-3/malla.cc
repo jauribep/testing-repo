@@ -398,6 +398,12 @@ namespace malla
         GridTools::shift(cylinder_triangulation_offset, cylinder_tria);
 
         temp = std::move(tria);
+
+        const double vertex_tolerance =
+          std::min(internal::minimal_vertex_distance(temp),
+                   internal::minimal_vertex_distance(cylinder_tria)) /
+          10;
+
         GridGenerator::merge_triangulations(
           temp, cylinder_tria, tria, vertex_tolerance, true);
       }
