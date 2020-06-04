@@ -392,13 +392,13 @@ namespace malla
     GridGenerator::merge_triangulations(
      tria_without_cylinder, cylinder_tria, tria, vertex_tolerance, true);
 
-    //bring the cylinder_tria origin
+    //bring the cylinder_tria origin again
     cylinder_triangulation_offset = - well_loc[0];
     GridTools::shift(cylinder_triangulation_offset, cylinder_tria);
 
     //continue mergin the other wells
     Triangulation<2> temp;
-    for(unsigned int i = 1; i < 2; i++)
+    for(unsigned int i = 1; i < n_wells; i++)
       {
         cylinder_triangulation_offset = well_loc[i];
         GridTools::shift(cylinder_triangulation_offset, cylinder_tria);
@@ -416,15 +416,15 @@ namespace malla
 
         temp.clear();
 
-        //bring the cylinder_tria to the origin
+        //bring the cylinder_tria to the origin again
         cylinder_triangulation_offset = - well_loc[i];
         GridTools::shift(cylinder_triangulation_offset, cylinder_tria);
       }
 
-    std::ofstream out("17_well_loc2.vtk");
+    std::ofstream out("18_well_locn.vtk");
     GridOut       grid_out;
     grid_out.write_vtk(tria, out);
-    std::cout << "Grid written to 17_well_loc2.vtk" << std::endl;
+    std::cout << "Grid written to 18_well_locn.vtk" << std::endl;
 
     // // Ensure that all manifold ids on a polar cell really are set to the
     // // polar manifold id:
