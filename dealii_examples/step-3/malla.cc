@@ -393,7 +393,7 @@ namespace malla
      tria_without_cylinder, cylinder_tria, tria, vertex_tolerance, true);
 
     //bring the cylinder_tria origin
-    cylinder_triangulation_offset = Point<2>();
+    cylinder_triangulation_offset = - well_loc[0];
     GridTools::shift(cylinder_triangulation_offset, cylinder_tria);
 
     //continue mergin the other wells
@@ -417,7 +417,7 @@ namespace malla
         temp.clean();
 
         //bring the cylinder_tria to the origin
-        cylinder_triangulation_offset = Point<2>();
+        cylinder_triangulation_offset = - well_loc[i];
         GridTools::shift(cylinder_triangulation_offset, cylinder_tria);
       }
 
