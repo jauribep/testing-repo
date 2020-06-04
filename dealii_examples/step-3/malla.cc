@@ -252,11 +252,6 @@ namespace malla
                 face->set_boundary_id(3);
               }
           }
-
-    // std::ofstream out("8_final_tria.vtk");
-    // GridOut       grid_out;
-    // grid_out.write_vtk(tria, out);
-    // std::cout << "Grid written to 8_final_tria.vtk" << std::endl;
   }
 
   void malla_personal2()
@@ -290,8 +285,8 @@ namespace malla
     const unsigned int n_shells = n_cells_r;
     const double skewness = 2.0;
     const unsigned int n_cells_per_shell = n_cells_tet;
-    // //Tensor<1, 2> cylinder_triangulation_offset = well_loc_1;
-    // Triangulation<2> tria;
+    Tensor<1, 2> cylinder_triangulation_offset;
+    Triangulation<2> tria;
     const types::manifold_id polar_manifold_id = 0;
     const types::manifold_id tfi_manifold_id   = 1;
 
@@ -381,34 +376,27 @@ namespace malla
          shell_tria, cylinder_tria, temp, vertex_tolerance, true);
        cylinder_tria = std::move(temp);
 
-       //define a vector of triangulations
-       std::vector<Triangulation<2>> tria_vec;
-       tria_vec.push_back(cylinder_tria);
-       // for(unsigned int i = 0; i < n_wells; i++)
-       //    {
-       //      tria_vec.push_back(cylinder_tria);
-       //    }
-
-        // std::ofstream out("15_well_loc.vtk");
-        // GridOut       grid_out;
-        // grid_out.write_vtk(tria_without_cylinder, out);
-        // std::cout << "Grid written to 15_well_loc.vtk" << std::endl;
-
      }
 
-    // GridTools::shift(cylinder_triangulation_offset, cylinder_tria);
+    cylinder_triangulation_offset = well_loc[0];
 
+    GridTools::shift(cylinder_triangulation_offset, cylinder_tria);
 
-    // // Compute the tolerance again, since the shells may be very close to
-    // // each-other:
-    // const double vertex_tolerance =
-    //   std::min(internal::minimal_vertex_distance(tria_without_cylinder),
-    //            internal::minimal_vertex_distance(cylinder_tria)) /
-    //   10;
-    //
-    // GridGenerator::merge_triangulations(
-    //   tria_without_cylinder, cylinder_tria, tria, vertex_tolerance, true);
-    //
+    // Compute the tolerance again, since the shells may be very close to
+    // each-other:
+    const double vertex_tolerance =
+      std::min(internal::minimal_vertex_distance(tria_without_cylinder),
+               internal::minimal_vertex_distance(cylinder_tria)) /
+      10;
+
+    GridGenerator::merge_triangulations(
+      tria_without_cylinder, cylinder_tria, tria, vertex_tolerance, true);
+
+    std::ofstream out("16_well_loc.vtk");
+    GridOut       grid_out;
+    grid_out.write_vtk(tria, out);
+    std::cout << "Grid written to 16_well_loc.vtk" << std::endl;
+
     // // Ensure that all manifold ids on a polar cell really are set to the
     // // polar manifold id:
     // for (const auto &cell : tria.active_cell_iterators())
