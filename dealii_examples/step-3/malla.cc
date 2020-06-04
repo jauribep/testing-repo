@@ -414,7 +414,7 @@ namespace malla
         GridGenerator::merge_triangulations(
           temp, cylinder_tria, tria, vertex_tolerance, true);
 
-        temp.clean();
+        temp.clear();
 
         //bring the cylinder_tria to the origin
         cylinder_triangulation_offset = - well_loc[i];
