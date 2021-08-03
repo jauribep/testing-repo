@@ -1,10 +1,10 @@
-/home/dealii/git/testing-repo/dealii_examples/step-3/CMakeFiles/edit_cache.dir
 /home/dealii/git/testing-repo/dealii_examples/step-3/CMakeFiles/rebuild_cache.dir
-/home/dealii/git/testing-repo/dealii_examples/step-3/CMakeFiles/info.dir
+/home/dealii/git/testing-repo/dealii_examples/step-3/CMakeFiles/edit_cache.dir
 /home/dealii/git/testing-repo/dealii_examples/step-3/CMakeFiles/strip_comments.dir
 /home/dealii/git/testing-repo/dealii_examples/step-3/CMakeFiles/distclean.dir
 /home/dealii/git/testing-repo/dealii_examples/step-3/CMakeFiles/runclean.dir
-/home/dealii/git/testing-repo/dealii_examples/step-3/CMakeFiles/debug.dir
-/home/dealii/git/testing-repo/dealii_examples/step-3/CMakeFiles/step-3.dir
-/home/dealii/git/testing-repo/dealii_examples/step-3/CMakeFiles/run.dir
 /home/dealii/git/testing-repo/dealii_examples/step-3/CMakeFiles/release.dir
+/home/dealii/git/testing-repo/dealii_examples/step-3/CMakeFiles/debug.dir
+/home/dealii/git/testing-repo/dealii_examples/step-3/CMakeFiles/run.dir
+/home/dealii/git/testing-repo/dealii_examples/step-3/CMakeFiles/info.dir
+/home/dealii/git/testing-repo/dealii_examples/step-3/CMakeFiles/step-3.dir

@@ -1,8 +1,8 @@
 MESSAGE(
 "###
 #
-#  Project  step-3  set up with  deal.II-9.1.1  found at
-#      /usr/local/opt/spack/linux-ubuntu16.04-x86_64/gcc-5.4.0/dealii-9.1.1-kbq6c5p67nir5zwpx5lbevwutndfivxz
+#  Project  step-3  set up with  deal.II-9.3.0  found at
+#      /usr/local
 #
 #  CMAKE_BUILD_TYPE:          Debug
 #
