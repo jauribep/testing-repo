@@ -51,6 +51,7 @@
 #include <fstream>
 #include <iostream>
 
+/* Archivo que continene varias mallas en las que estoy trabajando */
 #include "malla.h"
 
 using namespace dealii;
@@ -91,8 +92,11 @@ Step3::Step3()
 void Step3::make_grid()
 {
   //Malla original
-  // GridGenerator::hyper_cube(triangulation, -1, 1);
-  // triangulation.refine_global(5);
+  GridGenerator::hyper_cube(triangulation, -1, 1);
+  triangulation.refine_global(5);
+  
+  std::cout << "Number of active cells: " << triangulation.n_active_cells()
+            << std::endl;
 
   //Malla channel_with_cylinder
   // const double shell_region_width = 0.03;
@@ -105,9 +109,9 @@ void Step3::make_grid()
   //   triangulation.refine_global(2);
 
   //Malla personalizada
-  malla::malla_personal2();
+  //malla::malla_personal2();
 
-  // std::cout << "Number of active cells: " << bulk_tria.n_active_cells()
+  //std::cout << "Number of active cells: " << bulk_tria.n_active_cells()
   //           << std::endl;
 
   // std::ofstream out2("2_tria_without_cylinder.vtk");
@@ -217,8 +221,8 @@ void Step3::output_results() const
   data_out.add_data_vector(solution, "solution");
   data_out.build_patches();
 
-  std::ofstream output("solution.gpl");
-  data_out.write_gnuplot(output);
+  std::ofstream output("solution.vtu");
+  data_out.write_vtu(output);
 }
 
 
@@ -226,10 +230,10 @@ void Step3::output_results() const
 void Step3::run()
 {
   make_grid();
-  // setup_system();
-  // assemble_system();
-  // solve();
-  // output_results();
+  setup_system();
+  assemble_system();
+  solve();
+  output_results();
 }
 
 
