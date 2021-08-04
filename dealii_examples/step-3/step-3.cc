@@ -175,7 +175,7 @@ void Step3::assemble_system()
 
           for (unsigned int i = 0; i < dofs_per_cell; ++i)
             cell_rhs(i) += (fe_values.shape_value(i, q_index) * // phi_i(x_q)
-                            1 *                                 // f(x_q)
+                            3 *                                 // f(x_q)
                             fe_values.JxW(q_index));            // dx
         }
       cell->get_dof_indices(local_dof_indices);
