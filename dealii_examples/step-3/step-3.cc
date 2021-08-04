@@ -99,24 +99,25 @@ void Step3::make_grid()
   //          << std::endl;
 
   //Malla channel_with_cylinder
-  const double shell_region_width = 0.03;
-  const unsigned int n_shells = 2;
-  const double skewness = 2.0;
-  const bool colorize = false;
-  //
-  GridGenerator::channel_with_cylinder(triangulation,
-  shell_region_width, n_shells, skewness, colorize);
-  triangulation.refine_global(2);
+  //const double shell_region_width = 0.03;
+  //const unsigned int n_shells = 2;
+  //const double skewness = 2.0;
+  //const bool colorize = false;
+  
+  //GridGenerator::channel_with_cylinder(triangulation,
+  //shell_region_width, n_shells, skewness, colorize);
+  //triangulation.refine_global(2);
+  
+  //std::cout << "Number of active cells: " << triangulation.n_active_cells()
+  //          << std::endl;
+
+  //Malla personalizada multipozo
+  malla::malla_personal2();
   
   std::cout << "Number of active cells: " << triangulation.n_active_cells()
             << std::endl;
-
-  //Malla personalizada
-  //malla::malla_personal2();
-
-  //std::cout << "Number of active cells: " << bulk_tria.n_active_cells()
-  //           << std::endl;
-
+  
+  // Para imprimir la malla
   // std::ofstream out2("2_tria_without_cylinder.vtk");
   // GridOut       grid_out2;
   // grid_out2.write_vtk(tria_without_cylinder, out2);
