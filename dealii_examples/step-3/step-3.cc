@@ -92,21 +92,24 @@ Step3::Step3()
 void Step3::make_grid()
 {
   //Malla original
-  GridGenerator::hyper_cube(triangulation, -1, 1);
-  triangulation.refine_global(5);
+  //GridGenerator::hyper_cube(triangulation, -1, 1);
+  //triangulation.refine_global(5);
+  
+  //std::cout << "Number of active cells: " << triangulation.n_active_cells()
+  //          << std::endl;
+
+  //Malla channel_with_cylinder
+  const double shell_region_width = 0.03;
+  const unsigned int n_shells = 2;
+  const double skewness = 2.0;
+  const bool colorize = false;
+  //
+  GridGenerator::channel_with_cylinder(triangulation,
+  shell_region_width, n_shells, skewness, colorize);
+  triangulation.refine_global(2);
   
   std::cout << "Number of active cells: " << triangulation.n_active_cells()
             << std::endl;
-
-  //Malla channel_with_cylinder
-  // const double shell_region_width = 0.03;
-  // const unsigned int n_shells = 2;
-  // const double skewness = 2.0;
-  // const bool colorize = false;
-  //
-  // GridGenerator::channel_with_cylinder(triangulation,
-  //   shell_region_width, n_shells, skewness, colorize);
-  //   triangulation.refine_global(2);
 
   //Malla personalizada
   //malla::malla_personal2();
