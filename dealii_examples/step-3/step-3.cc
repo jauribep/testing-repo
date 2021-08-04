@@ -112,16 +112,16 @@ void Step3::make_grid()
   //          << std::endl;
 
   //Malla personalizada multipozo
-  malla::malla_personal2();
+  malla::malla_personal2(triangulation);
   
   std::cout << "Number of active cells: " << triangulation.n_active_cells()
             << std::endl;
   
   // Para imprimir la malla
-  // std::ofstream out2("2_tria_without_cylinder.vtk");
-  // GridOut       grid_out2;
-  // grid_out2.write_vtk(tria_without_cylinder, out2);
-  // std::cout << "Grid written to tria_without_cylinder.vtk" << std::endl;
+  std::ofstream out("malla_personal2.vtk");
+  GridOut       grid_out;
+  grid_out.write_vtk(triangulation, out);
+  std::cout << "Grid written to malla_personal2.vtk" << std::endl;
 
 }
 
@@ -234,10 +234,10 @@ void Step3::output_results() const
 void Step3::run()
 {
   make_grid();
-  setup_system();
-  assemble_system();
-  solve();
-  output_results();
+  //setup_system();
+  //assemble_system();
+  //solve();
+  //output_results();
 }
 
 

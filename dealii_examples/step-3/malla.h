@@ -7,7 +7,7 @@
 namespace malla
 {
   void malla_personal();
-  void malla_personal2();
+  void malla_personal2(Triangulation<2> &tria);
 } // namespace malla
 
 #endif

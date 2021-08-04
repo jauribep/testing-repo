@@ -254,7 +254,7 @@ namespace malla
           }
   }
 
-  void malla_personal2()
+  void malla_personal2(Triangulation<2> &tria)
   {
     //Parameters
     const unsigned int n_wells = 9; //number of wells
@@ -286,7 +286,6 @@ namespace malla
     const double skewness = 2.0;
     const unsigned int n_cells_per_shell = n_cells_tet;
     Tensor<1, 2> cylinder_triangulation_offset;
-    Triangulation<2> tria;
     const types::manifold_id polar_manifold_id = 0;
     const types::manifold_id tfi_manifold_id   = 1;
 
@@ -421,10 +420,10 @@ namespace malla
         GridTools::shift(cylinder_triangulation_offset, cylinder_tria);
       }
 
-    std::ofstream out("18_well_locn.vtk");
-    GridOut       grid_out;
-    grid_out.write_vtk(tria, out);
-    std::cout << "Grid written to 18_well_locn.vtk" << std::endl;
+    //std::ofstream out("18_well_locn.vtk");
+    //GridOut       grid_out;
+    //grid_out.write_vtk(tria, out);
+    //std::cout << "Grid written to 18_well_locn.vtk" << std::endl;
 
     // // Ensure that all manifold ids on a polar cell really are set to the
     // // polar manifold id:
