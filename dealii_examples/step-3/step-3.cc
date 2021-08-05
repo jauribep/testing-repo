@@ -234,10 +234,10 @@ void Step3::output_results() const
 void Step3::run()
 {
   make_grid();
-  //setup_system();
-  //assemble_system();
-  //solve();
-  //output_results();
+  setup_system();
+  assemble_system();
+  solve();
+  output_results();
 }
 
 
