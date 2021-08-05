@@ -4,14 +4,13 @@
 #include <deal.II/grid/tria.h>
 #include <deal.II/dofs/dof_handler.h>
 
-DEAL_II_NAMESPACE_OPEN
+using namespace dealii;
 
 namespace malla
 {
   void malla_personal();
 
-  template <>
-  void malla_personal2(Triangulation<2> &);
+  void malla_personal2(Triangulation<2> &triangulation);
 } // namespace malla
 
 #endif

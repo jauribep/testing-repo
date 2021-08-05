@@ -254,7 +254,7 @@ namespace malla
           }
   }
 
-  void malla_personal2(Triangulation<2> &tria)
+  void malla_personal2(Triangulation<2> &triangulation)
   {
     //Parameters
     const unsigned int n_wells = 9; //number of wells
@@ -288,6 +288,7 @@ namespace malla
     Tensor<1, 2> cylinder_triangulation_offset;
     const types::manifold_id polar_manifold_id = 0;
     const types::manifold_id tfi_manifold_id   = 1;
+    Triangulation<2> tria; 
 
     well_loc.push_back(well_loc_1);
     well_loc.push_back(well_loc_2);
@@ -419,6 +420,8 @@ namespace malla
         cylinder_triangulation_offset = - well_loc[i];
         GridTools::shift(cylinder_triangulation_offset, cylinder_tria);
       }
+    
+    triangulation = std::move(tria);
 
     //std::ofstream out("18_well_locn.vtk");
     //GridOut       grid_out;
