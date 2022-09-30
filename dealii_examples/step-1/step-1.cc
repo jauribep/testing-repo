@@ -42,7 +42,7 @@ void first_grid()
 
 
 /* modification #1*/
-void second_grid()
+void second_grid_1()
 {
   Triangulation<2> triangulation;
 
@@ -62,8 +62,15 @@ void second_grid()
     }
 
 
+  std::ofstream out("grid-2_1.svg");
+  GridOut       grid_out;
+  grid_out.write_svg(triangulation, out);
+
+  std::cout << "Grid written to grid-2_1.svg" << std::endl;
+}
+  
 /*Original grid*/
-/*void second_grid()
+void second_grid()
 {
   Triangulation<2> triangulation;
 
@@ -91,7 +98,7 @@ void second_grid()
 
       triangulation.execute_coarsening_and_refinement();
     }
-*/
+
 
   std::ofstream out("grid-2.svg");
   GridOut       grid_out;
@@ -107,4 +114,6 @@ int main()
 {
   first_grid();
   second_grid();
+  second_grid_1();
 }
+
